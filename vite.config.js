@@ -11,9 +11,9 @@ const vitePWA = VitePWA({
   outDir: 'dist',
 
   manifest: {
-    name: 'title',
-    short_name: 'title',
-    description: 'description',
+    name: '#TaskList',
+    short_name: '#TaskList',
+    description: 'Simple and fast task manager',
     theme_color: '#181818',
     display: 'standalone',
     icons: [
