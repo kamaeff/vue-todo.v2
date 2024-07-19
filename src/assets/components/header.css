@@ -51,10 +51,7 @@ header {
   display: flex;
   align-items: center;
 
-  backdrop-filter: blur(10px);
-
-  -webkit-backdrop-filter: blur(10px);
-  background-color: var(--color-border);
+  background-color: var(--color-background-mute);
 
   border: 1px solid var(--color-border);
   border-radius: 10px;
@@ -222,7 +219,7 @@ header {
 
 @media (max-width: 992px) {
   .modal {
-    width: 90%;
+    width: 60%;
     height: 55vh;
 
     top: 45%;
@@ -245,6 +242,8 @@ header {
 
 @media (max-width: 680px) {
   .modal {
+    width: 80%;
+    height: 70vh;
     top: 50%;
   }
 }

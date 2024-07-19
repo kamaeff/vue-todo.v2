@@ -2,7 +2,7 @@
 :root {
   --vt-c-white: #ffffff;
   --vt-c-white-soft: #f8f8f8;
-  --vt-c-white-mute: rgb(242, 242, 242 0.5);
+  --vt-c-white-mute: rgb(226, 226, 226);
 
   --vt-c-black: #181818;
   --vt-c-black-soft: #222222;
@@ -16,7 +16,7 @@
   --vt-c-divider-light-1: #3c3c3c4a;
   --vt-c-divider-light-2: rgba(60, 60, 60, 0.12);
   --vt-c-divider-dark-1: rgba(84, 84, 84, 0.65);
-  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.48);
+  --vt-c-divider-dark-2: rgba(84, 84, 84, 0.685);
 
   --vt-c-text-light-1: var(--vt-c-indigo);
   --vt-c-text-light-2: #3c3c3ca8;

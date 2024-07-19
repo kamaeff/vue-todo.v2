@@ -180,6 +180,6 @@ onUnmounted(() => {
       </div>
     </div>
 
-    <p class="warning">Careful! Data will be in local storage your browser</p>
+    <p class="warning">Careful! All data will be stored in your browser ;)</p>
   </div>
 </template>
