@@ -1,24 +1,26 @@
 <script setup>
-import { ref } from 'vue';
-import { X, CircleUserRound, FilePenLine, ChevronsRight, SquareCheckBig, Tally5, TriangleAlert } from 'lucide-vue-next';
+import { ref, watch, onUnmounted } from 'vue';
+import {
+  X,
+  CircleUserRound,
+  FilePenLine,
+  ChevronsRight,
+  SquareCheckBig,
+  Tally5,
+  TriangleAlert
+} from 'lucide-vue-next';
 
-// Общие состояния
 const isModalOpen = ref(false);
 const username = ref('');
 const name = ref('');
 
-// Состояния для формы изменения пользователя
 const isEditUser = ref(false);
-const saveUser = (e) => {
-  // first char to uppercase
-  username.value = e.target[0].value.charAt(0).toUpperCase() + e.target[0].value.slice(1);
+const saveUser = () => {
   isEditUser.value = false;
 };
 
-// Состояния для формы изменения имени
 const isEditName = ref(false);
-const saveName = (e) => {
-  name.value = e.target[0].value;
+const saveName = () => {
   isEditName.value = false;
 };
 
@@ -29,125 +31,156 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false;
 };
+
+const handleEscKey = (event) => {
+  if (event.key === 'Escape') {
+    closeModal();
+  }
+};
+
+watch(isModalOpen, (newVal) => {
+  newVal
+    ? document.addEventListener('keyup', handleEscKey)
+    : document.removeEventListener('keyup', handleEscKey);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keyup', handleEscKey);
+});
+
 </script>
 
 <template>
   <header>
     <div class="profile">
       <button type="button"
-              @click="openModal">
+              @click="openModal"
+              :title="username !== '' ? 'Profile' : 'Sign in'">
+
         <CircleUserRound :size="22"
                          :strokeWidth="1" />
+
         {{ username !== '' ? username : 'Sign in' }}
       </button>
     </div>
   </header>
 
-  <div v-if="isModalOpen"
-       class="modal"
-       @click.stop>
-    <button class="close"
-            @click="closeModal">
-      <X />
-    </button>
+  <Transition name="bounce">
+    <div v-if="isModalOpen"
+         class="modal"
+         @click.stop>
 
-    <div class="content">
-      <h2>
-        <CircleUserRound :size="26"
-                         :strokeWidth="1" />
-        {{ username !== '' ? username : 'User' }}
-      </h2>
+      <button class="close"
+              @click="closeModal"
+              title="Close">
+        <X />
+      </button>
 
-      <!-- NOTE: Форма изменения пользователя -->
-      <form class="form"
-            @submit.prevent="saveUser">
+      <div class="content">
+        <h2>
+          <CircleUserRound :size="26"
+                           :strokeWidth="1" />
+          {{ username !== '' ? username : 'User' }}
+        </h2>
 
-        <input type="text"
-               v-model="username"
-               :disabled="!isEditUser"
-               :placeholder="username !== '' ? name : 'Paste nickname'"
-               :class="{ 'scale': isEditUser }" />
+        <form class="form"
+              @submit.prevent="saveUser">
 
-        <button type="button"
-                v-show="!isEditUser"
-                @click="isEditUser = true">
+          <input type="text"
+                 v-model="username"
+                 :disabled="!isEditUser"
+                 :placeholder="username !== '' ? name : 'Paste nickname'"
+                 :class="{ 'scale': isEditUser }" />
 
-          <FilePenLine />
-        </button>
+          <button type="button"
+                  v-show="!isEditUser"
+                  @click="isEditUser = true"
+                  title="Edit username">
 
-        <button type="submit"
-                v-show="isEditUser">
+            <FilePenLine />
+          </button>
 
-          <ChevronsRight />
-        </button>
+          <button type="submit"
+                  v-show="isEditUser"
+                  title="Submit">
 
-      </form>
+            <ChevronsRight />
+          </button>
 
-      <!-- NOTE: Форма изменения имени -->
-      <form class="form"
-            @submit.prevent="saveName">
+        </form>
 
-        <input type="text"
-               v-model="name"
-               :disabled="!isEditName"
-               :placeholder="name !== '' ? name : 'Paste name'"
-               :class="{ 'scale': isEditName }" />
+        <form class="form"
+              @submit.prevent="saveName">
 
-        <button type="button"
-                v-show="!isEditName"
-                @click="isEditName = true">
+          <input type="text"
+                 v-model="name"
+                 :disabled="!isEditName"
+                 :placeholder="name !== '' ? name : 'Paste name'"
+                 :class="{ 'scale': isEditName }" />
 
-          <FilePenLine />
-        </button>
+          <button type="button"
+                  v-show="!isEditName"
+                  @click="isEditName = true"
+                  title="Edit Name">
 
-        <button type="submit"
-                v-show="isEditName">
+            <FilePenLine />
+          </button>
 
-          <ChevronsRight />
-        </button>
+          <button type="submit"
+                  v-show="isEditName"
+                  title="Submit">
 
-      </form>
+            <ChevronsRight />
+          </button>
+
+        </form>
+
+
+      </div>
+
+      <div class="stats">
+        <h2>Stats</h2>
+        <p class="name">{{ name !== '' ? name : 'My name' }}</p>
+
+        <div class="item">
+          <p>
+            <Tally5 :size="16"
+                    color="gray" />
+            Total
+          </p>
+          <span>123</span>
+        </div>
+
+        <div class="item">
+          <p>
+            <SquareCheckBig :size="16"
+                            color="green" />
+            Done
+          </p>
+          <span>50</span>
+        </div>
+
+        <div class="item">
+          <p>
+            <TriangleAlert :size="16"
+                           color="yellow" />
+            InProgress
+          </p>
+          <span>2</span>
+        </div>
+
+        <div class="item">
+          <p>
+            <X :size="16"
+               color="red" />
+            New
+          </p>
+          <span>56</span>
+        </div>
+      </div>
+
+
+      <p class="warning">Careful! All data will be stored in your browser ;)</p>
     </div>
-
-    <div class="stats">
-      <h2>Stats</h2>
-      <p class="name">{{ name !== '' ? name : 'My name' }}</p>
-
-      <div class="item">
-        <p>
-          <Tally5 :size="16"
-                  color="gray" />
-          Total
-        </p>
-        <span>123</span>
-      </div>
-
-      <div class="item">
-        <p>
-          <SquareCheckBig :size="16"
-                          color="green" />
-          Done
-        </p>
-        <span>50</span>
-      </div>
-
-      <div class="item">
-        <p>
-          <TriangleAlert :size="16"
-                         color="yellow" />
-          InProgress
-        </p>
-        <span>2</span>
-      </div>
-
-      <div class="item">
-        <p>
-          <X :size="16"
-             color="red" />
-          New
-        </p>
-        <span>56</span>
-      </div>
-    </div>
-  </div>
+  </Transition>
 </template>

@@ -53,22 +53,14 @@ body {
       p {
         font-size: 24px;
       }
+
       .sub {
+        display: block;
         font-size: 14px;
         font-weight: 300;
       }
     }
   }
-}
-
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.5s;
-}
-
-.fade-enter,
-.fade-leave-to {
-  opacity: 0;
 }
 
 @keyframes rotate {

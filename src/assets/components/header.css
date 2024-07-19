@@ -38,11 +38,11 @@ header {
 }
 
 .modal {
-  position: absolute;
+  z-index: 1000;
+  position: fixed;
 
-  top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
+  right: 30%;
+  top: 30%;
 
   width: 40%;
   height: 300px;
@@ -51,7 +51,25 @@ header {
   align-items: center;
 
   background-color: var(--color-background-mute);
+
+  border: 1px solid var(--color-border);
   border-radius: 10px;
+
+  .warning {
+    position: absolute;
+
+    bottom: 3%;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 300;
+
+    color: var(--color-warning);
+  }
 
   .close {
     cursor: pointer;
@@ -78,6 +96,7 @@ header {
     height: 80%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 
     padding: 20px;
     gap: 10px;
@@ -92,11 +111,6 @@ header {
       gap: 5px;
 
       font-size: 20px;
-
-      /* padding: 3px 10px;
-      background-color: var(--color-border);
-
-      border-radius: 8px; */
     }
 
     .form {
@@ -147,16 +161,10 @@ header {
 
     display: flex;
     flex-direction: column;
+    /* justify-content: center; */
 
     padding: 20px;
     gap: 5px;
-
-    /* h2 {
-      padding: 3px 10px;
-      background-color: var(--color-border);
-
-      border-radius: 8px;
-    } */
 
     .name {
       text-decoration: underline;
@@ -200,22 +208,27 @@ header {
 @media (max-width: 1200px) {
   .modal {
     width: 55%;
-    height: 30vh;
+    height: 40vh;
+
+    right: 20%;
+
+    .warning {
+      width: 60%;
+    }
   }
 }
 
 @media (max-width: 992px) {
   .modal {
-    width: 90%;
-    height: 50vh;
-
-    top: 35%;
+    width: 60%;
+    height: 55vh;
 
     flex-direction: column;
     padding: 30px 0;
 
     .content {
       width: 90%;
+      height: 50%;
       border-right: none;
       border-bottom: 1px solid var(--color-border);
     }
@@ -223,5 +236,15 @@ header {
     .stats {
       width: 90%;
     }
+  }
+}
+
+@media (max-width: 680px) {
+  .modal {
+    width: 80%;
+    height: 70vh;
+
+    top: 10%;
+    left: 10%;
   }
 }
