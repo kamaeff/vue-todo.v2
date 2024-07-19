@@ -198,10 +198,23 @@ header {
 }
 
 @media (max-width: 768px) {
-  header {
-    .modal {
-      width: 400px;
-      height: 50vh;
+  .modal {
+    width: 90%;
+    height: 50vh;
+
+    top: 35%;
+
+    flex-direction: column;
+    padding: 30px 0;
+
+    .content {
+      width: 90%;
+      border-right: none;
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .stats {
+      width: 90%;
     }
   }
 }
