@@ -1,9 +1,9 @@
-import { fileURLToPath, URL } from 'node:url'
+import {URL, fileURLToPath} from 'node:url';
 
-import { defineConfig } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import vueDevTools from 'vite-plugin-vue-devtools'
-import { VitePWA } from 'vite-plugin-pwa'
+import {VitePWA} from 'vite-plugin-pwa';
+import {defineConfig} from 'vite';
+import vue from '@vitejs/plugin-vue';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 const vitePWA = VitePWA({
   registerType: 'autoUpdate',
@@ -20,26 +20,27 @@ const vitePWA = VitePWA({
       {
         src: '/android-chrome-192x192.png',
         sizes: '192x192',
-        type: 'image/png'
+        type: 'image/png',
       },
       {
         src: '/android-chrome-512x512.png',
         sizes: '512x512',
-        type: 'image/png'
-      }
-    ]
-  }
-})
+        type: 'image/png',
+      },
+    ],
+  },
+});
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/vue-todo.v2/',
   plugins: [vue(), vueDevTools(), vitePWA],
   server: {
-    port: 5123
+    port: 5123,
   },
   resolve: {
     alias: {
-      '@': fileURLToPath(new URL('./src', import.meta.url))
-    }
-  }
-})
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+});

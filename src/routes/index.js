@@ -1,17 +1,18 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import Home from './HomeRoute.vue'
-import About from './AboutRoute.vue'
-import NotFound from './NotFound.vue'
+import {createRouter, createWebHistory} from 'vue-router';
+
+import About from './AboutRoute.vue';
+import Home from './HomeRoute.vue';
+import NotFound from './NotFound.vue';
 
 const routes = [
-  { path: '/', component: Home },
-  { path: '/about', component: About },
-  { path: '/:pathMatch(.*)*', component: NotFound }
-]
+  {path: '/vue-todo.v2/', component: Home},
+  {path: '/vue-todo.v2/about', component: About},
+  {path: '/vue-todo.v2/:pathMatch(.*)*', component: NotFound},
+];
 
 const router = createRouter({
   history: createWebHistory(),
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;

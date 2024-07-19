@@ -1,9 +1,19 @@
-import './assets/styles.css'
+import {createApp} from 'vue';
+import {createPinia} from 'pinia';
 
-import { createApp } from 'vue'
-import App from './App.vue'
-import router from './routes/index'
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css';
+import 'vue3-toastify/dist/index.css';
 
-const app = createApp(App)
-app.use(router)
-app.mount('#app')
+import App from './App.vue';
+import router from './routes/index';
+import './assets/styles.css';
+
+const app = createApp(App);
+
+app.component('VueDatePicker', VueDatePicker);
+
+app.use(createPinia());
+app.use(router);
+
+app.mount('#app');

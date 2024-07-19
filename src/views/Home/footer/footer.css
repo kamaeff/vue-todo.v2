@@ -6,6 +6,15 @@ footer {
   justify-content: center;
   align-items: end;
 
+  .show {
+    position: absolute;
+
+    left: 50%;
+    bottom: 25%;
+
+    transform: translateX(-50%);
+  }
+
   .container {
     cursor: pointer;
     overflow: hidden;
@@ -30,6 +39,12 @@ footer {
       align-items: center;
 
       visibility: hidden;
+
+      p {
+        position: absolute;
+
+        bottom: 2%;
+      }
     }
   }
 

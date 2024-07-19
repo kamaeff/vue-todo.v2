@@ -1,0 +1,161 @@
+
+.main {
+    position: relative;
+    width: 95%;
+    height: 80vh;
+
+    display: flex;
+    align-items: center;
+
+    gap: 40px;
+    margin: 0 auto;
+
+    h2 {
+        font-size: 26px;
+    }
+
+
+    .list {
+        width: 80%;
+        height: 100%;
+
+        display: flex;
+
+        gap: 20px;
+
+        .new {
+            margin-left: 20px;
+        }
+
+        .new,
+        .inProgress {
+            border-right: 1px solid var(--color-border);
+        }
+
+        .new,
+        .inProgress,
+        .done {
+            width: 90%;
+
+            display: flex;
+            flex-direction: column;
+
+            gap: 10px;
+
+            .title {
+                display: flex;
+                align-items: center;
+
+                gap: 5px;
+                margin-bottom: 10px;
+
+                font-size: 18px;
+            }
+
+            .item {
+                padding: 0;
+
+                li {
+                    list-style: none;
+                }
+            }
+        }
+    }
+}
+
+.dp__input_icon {
+    stroke: var(--color-text) !important;
+    fill: var(--color-text) !important;
+}
+
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 5px;
+
+    font-size: 14px;
+    color: var(--color-warning);
+}
+
+.shake {
+    /* background-color: rgba(236, 90, 90, 0.418) !important;
+    color: var(--color-text) !important; */
+
+    animation: shake 0.5s;
+}
+
+@media (max-width: 1200px) {
+    .main {
+        width: 100%;
+        flex-direction: column;
+
+        .form {
+            width: 30%;
+        }
+
+        .list {
+            width: 100%;
+
+            top: 25%;
+
+            justify-content: space-between;
+            flex-direction: column;
+
+            margin-top: 30px;
+
+            .new {
+                margin: 0;
+            }
+
+            .new,
+            .inProgress,
+            .done {
+                .title {
+                    justify-content: center;
+                    font-size: 16px;
+                }
+
+                .item {
+                    margin-left: 10px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 992px) {
+    .main {
+        .form {
+            width: 90%;
+
+            .container {
+                flex-direction: column;
+
+                select,
+                .input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}

@@ -1,74 +1,71 @@
-/* @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"); */
-
 @import "./base.css";
 @import "./fonts.css";
-@import "./components/header.css";
-@import "./components/main.css";
-@import "./components/footer.css";
 
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
-  margin: 0;
-  font-weight: normal;
+    box-sizing: border-box;
+    margin: 0;
+    font-weight: normal;
 }
 
 body {
-  min-height: 100vh;
+    min-height: 100vh;
 
-  color: var(--color-text);
-  background: var(--color-background);
+    color: var(--color-text);
+    background: var(--color-background);
 
-  transition:
-    color 0.5s,
+    transition: color 0.5s,
     background-color 0.5s;
 
-  font-family: "Rubik", sans-serif;
+    font-family: "Rubik", sans-serif;
 
-  font-size: 15px;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    font-size: 15px;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    -webkit-tap-highlight-color: transparent;
 }
 
 .loader {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  height: 100vh;
-
-  .container {
     display: flex;
     align-items: center;
+    justify-content: center;
 
-    gap: 5px;
+    height: 80vh;
 
-    .item {
-      animation: rotate 2s linear infinite;
+    .container {
+        display: flex;
+        align-items: center;
+
+        gap: 5px;
+
+        .item {
+            animation: rotate 2s linear infinite;
+        }
+
+        .text {
+            p {
+                font-size: 24px;
+            }
+
+            .sub {
+                display: block;
+                font-size: 14px;
+                font-weight: 300;
+            }
+        }
     }
-
-    .text {
-      p {
-        font-size: 24px;
-      }
-
-      .sub {
-        display: block;
-        font-size: 14px;
-        font-weight: 300;
-      }
-    }
-  }
 }
 
 @keyframes rotate {
-  from {
-    transform: rotate(0deg);
-  }
+    from {
+        transform: rotate(0deg);
+    }
 
-  to {
-    transform: rotate(360deg);
-  }
+    to {
+        transform: rotate(360deg);
+    }
 }
