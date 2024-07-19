@@ -2,9 +2,9 @@
 import { onMounted, ref, } from 'vue';
 import { Loader } from 'lucide-vue-next';
 
-import HeaderTemplate from '@/components/header/HeaderTemplate.vue'
-import MainTemplate from '@/components/main/MainTemplate.vue'
-import FooterTemplate from '@/components/footer/FooterTemplate.vue'
+import HeaderTemplate from '@/components/Home/header/HeaderTemplate.vue'
+import MainTemplate from '@/components/Home/main/MainTemplate.vue'
+import FooterTemplate from '@/components/Home/footer/FooterTemplate.vue'
 
 const loader = ref(true)
 
