@@ -1,19 +1,15 @@
-# tested
+# Todo App on Vue + VitePWA 
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+This is a Todo App on Vue + VitePWA
 
 ## Project Setup
 
 ```sh
 npm install
+```
+or
+```sh
+yarn
 ```
 
 ### Compile and Hot-Reload for Development
@@ -21,15 +17,38 @@ npm install
 ```sh
 npm run dev
 ```
+or
+```sh
+yarn dev
+```
 
 ### Compile and Minify for Production
 
 ```sh
 npm run build
 ```
+or
+```sh
+yarn build
+```
+
+### Serve with [VitePWA](https://github.com/antfu/vite-plugin-pwa)
+
+```sh
+npm run serve
+```
+or
+```sh
+yarn serve
+```
 
 ### Lint with [ESLint](https://eslint.org/)
 
 ```sh
 npm run lint
+```
+or
+
+```sh
+yarn lint
 ```
