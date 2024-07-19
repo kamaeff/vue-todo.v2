@@ -1,24 +1,26 @@
 <script setup>
-import { ref } from 'vue';
-import { X, CircleUserRound, FilePenLine, ChevronsRight, SquareCheckBig, Tally5, TriangleAlert } from 'lucide-vue-next';
+import { ref, watch, onUnmounted } from 'vue';
+import {
+  X,
+  CircleUserRound,
+  FilePenLine,
+  ChevronsRight,
+  SquareCheckBig,
+  Tally5,
+  TriangleAlert
+} from 'lucide-vue-next';
 
-// Общие состояния
 const isModalOpen = ref(false);
 const username = ref('');
 const name = ref('');
 
-// Состояния для формы изменения пользователя
 const isEditUser = ref(false);
-const saveUser = (e) => {
-  // first char to uppercase
-  username.value = e.target[0].value.charAt(0).toUpperCase() + e.target[0].value.slice(1);
+const saveUser = () => {
   isEditUser.value = false;
 };
 
-// Состояния для формы изменения имени
 const isEditName = ref(false);
-const saveName = (e) => {
-  name.value = e.target[0].value;
+const saveName = () => {
   isEditName.value = false;
 };
 
@@ -29,15 +31,35 @@ const openModal = () => {
 const closeModal = () => {
   isModalOpen.value = false;
 };
+
+const handleEscKey = (event) => {
+  if (event.key === 'Escape') {
+    closeModal();
+  }
+};
+
+watch(isModalOpen, (newVal) => {
+  newVal
+    ? document.addEventListener('keyup', handleEscKey)
+    : document.removeEventListener('keyup', handleEscKey);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('keyup', handleEscKey);
+});
+
 </script>
 
 <template>
   <header>
     <div class="profile">
       <button type="button"
-              @click="openModal">
+              @click="openModal"
+              :title="username !== '' ? 'Profile' : 'Sign in'">
+
         <CircleUserRound :size="22"
                          :strokeWidth="1" />
+
         {{ username !== '' ? username : 'Sign in' }}
       </button>
     </div>
@@ -46,10 +68,14 @@ const closeModal = () => {
   <div v-if="isModalOpen"
        class="modal"
        @click.stop>
+
     <button class="close"
-            @click="closeModal">
+            @click="closeModal"
+            title="Close">
       <X />
     </button>
+
+
 
     <div class="content">
       <h2>
@@ -58,7 +84,6 @@ const closeModal = () => {
         {{ username !== '' ? username : 'User' }}
       </h2>
 
-      <!-- NOTE: Форма изменения пользователя -->
       <form class="form"
             @submit.prevent="saveUser">
 
@@ -70,20 +95,21 @@ const closeModal = () => {
 
         <button type="button"
                 v-show="!isEditUser"
-                @click="isEditUser = true">
+                @click="isEditUser = true"
+                title="Edit username">
 
           <FilePenLine />
         </button>
 
         <button type="submit"
-                v-show="isEditUser">
+                v-show="isEditUser"
+                title="Submit">
 
           <ChevronsRight />
         </button>
 
       </form>
 
-      <!-- NOTE: Форма изменения имени -->
       <form class="form"
             @submit.prevent="saveName">
 
@@ -95,18 +121,22 @@ const closeModal = () => {
 
         <button type="button"
                 v-show="!isEditName"
-                @click="isEditName = true">
+                @click="isEditName = true"
+                title="Edit Name">
 
           <FilePenLine />
         </button>
 
         <button type="submit"
-                v-show="isEditName">
+                v-show="isEditName"
+                title="Submit">
 
           <ChevronsRight />
         </button>
 
       </form>
+
+
     </div>
 
     <div class="stats">
@@ -149,5 +179,7 @@ const closeModal = () => {
         <span>56</span>
       </div>
     </div>
+
+    <p class="warning">Careful! Data will be in local storage your browser</p>
   </div>
 </template>

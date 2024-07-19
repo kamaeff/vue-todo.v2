@@ -3,9 +3,9 @@
 </script>
 
 <template>
-  <main>
+  <div>
 
     <h2>#TaskList</h2>
 
-  </main>
+  </div>
 </template>
