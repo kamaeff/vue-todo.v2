@@ -11,7 +11,7 @@ onMounted(() => {
     loader.value = false
 
     console.log('Component mounted');
-  }, 1500)
+  }, 1000)
 
   return () => clearTimeout(timeout)
 })
@@ -19,9 +19,6 @@ onMounted(() => {
 
 <template>
 
-  <!-- TODO: Подумать над анимацией появления -->
-  <!-- <transition name="scale"
-              mode="in-out"> -->
   <div v-if="loader"
        class="loader">
     <div class="container">
@@ -35,7 +32,6 @@ onMounted(() => {
 
     </div>
   </div>
-  <!-- </transition> -->
 
   <div v-show="!loader">
     <MainTemplate />
