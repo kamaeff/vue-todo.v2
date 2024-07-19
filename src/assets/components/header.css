@@ -197,7 +197,14 @@ header {
   scale: 1.05;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
+  .modal {
+    width: 55%;
+    height: 30vh;
+  }
+}
+
+@media (max-width: 992px) {
   .modal {
     width: 90%;
     height: 50vh;
