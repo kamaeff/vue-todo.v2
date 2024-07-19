@@ -9,6 +9,7 @@
 
       <div class="content">
         <p>Content</p>
+        <a href="/about">About</a>
       </div>
 
     </div>

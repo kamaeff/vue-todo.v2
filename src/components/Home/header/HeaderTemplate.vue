@@ -125,7 +125,8 @@ const closeModal = () => {
       <div class="item">
         <p>
           <SquareCheckBig :size="16"
-                          color="green" /> Done
+                          color="green" />
+          Done
         </p>
         <span>50</span>
       </div>
@@ -133,7 +134,8 @@ const closeModal = () => {
       <div class="item">
         <p>
           <TriangleAlert :size="16"
-                         color="yellow" /> InProgress
+                         color="yellow" />
+          InProgress
         </p>
         <span>2</span>
       </div>
@@ -141,7 +143,8 @@ const closeModal = () => {
       <div class="item">
         <p>
           <X :size="16"
-             color="red" /> New
+             color="red" />
+          New
         </p>
         <span>56</span>
       </div>
