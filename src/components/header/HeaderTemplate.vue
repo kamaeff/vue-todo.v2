@@ -36,7 +36,7 @@ const closeModal = () => {
     <div class="profile">
       <button type="button"
               @click="openModal">
-        <CircleUserRound :size="26"
+        <CircleUserRound :size="22"
                          :strokeWidth="1" />
         {{ username !== '' ? username : 'Sign in' }}
       </button>
