@@ -39,11 +39,10 @@ header {
 
 .modal {
   z-index: 1000;
-  position: absolute;
+  position: fixed;
 
-  top: 50%;
-  right: 50%;
-  transform: translate(50%, -50%);
+  right: 30%;
+  top: 30%;
 
   width: 40%;
   height: 300px;
@@ -211,6 +210,8 @@ header {
     width: 55%;
     height: 40vh;
 
+    right: 20%;
+
     .warning {
       width: 60%;
     }
@@ -221,8 +222,6 @@ header {
   .modal {
     width: 60%;
     height: 55vh;
-
-    top: 45%;
 
     flex-direction: column;
     padding: 30px 0;
@@ -244,6 +243,8 @@ header {
   .modal {
     width: 80%;
     height: 70vh;
-    top: 50%;
+
+    top: 10%;
+    left: 10%;
   }
 }
