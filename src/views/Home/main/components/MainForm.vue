@@ -19,97 +19,97 @@ const priority = ref('');
 const shake = ref(false);
 
 const minDate = computed(() => {
-  const today = new Date();
-  const month =
-    getMonth(today) + 1 > 9 ? getMonth(today) + 1 : `0${getMonth(today) + 1}`;
-  const day = getDate(today) > 9 ? getDate(today) : `0${getDate(today)}`;
-  return `${getYear(today)}-${month}-${day}T00:00:00Z`;
+	const today = new Date();
+	const month =
+		getMonth(today) + 1 > 9 ? getMonth(today) + 1 : `0${getMonth(today) + 1}`;
+	const day = getDate(today) > 9 ? getDate(today) : `0${getDate(today)}`;
+	return `${getYear(today)}-${month}-${day}T00:00:00Z`;
 });
 
 const isDark = () =>
-  window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ?? false;
+	window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ?? false;
 
 const addTask = () => {
-  // TODO: Сделать вывод даты в виде день->месяц->год и время
-  const data = {
-    date: String(date?.value || ''),
-    priority: String(priority?.value || ''),
-    taskTitle: String(taskTitle?.value || ''),
-    subtext: String(subtext?.value || ''),
-  };
+	// TODO: Сделать вывод даты в виде день->месяц->год и время
+	const data = {
+		date: String(date?.value || ''),
+		priority: String(priority?.value || ''),
+		taskTitle: String(taskTitle?.value || ''),
+		subtext: String(subtext?.value || '')
+	};
 
-  const isAllFieldsFilled = Object.values(data).every(
-    value => value.trim() !== '',
-  );
+	const isAllFieldsFilled = Object.values(data).every(
+		value => value.trim() !== ''
+	);
 
-  if (!isAllFieldsFilled) {
-    notification('Some fields are empty', 'warning');
-    shake.value = true;
+	if (!isAllFieldsFilled) {
+		notification('Some fields are empty', 'warning');
+		shake.value = true;
 
-    const timeout = setTimeout(() => {
-      shake.value = false;
-    }, 500);
+		const timeout = setTimeout(() => {
+			shake.value = false;
+		}, 500);
 
-    return () => clearTimeout(timeout);
-  }
+		return () => clearTimeout(timeout);
+	}
 
-  userStore.addTask(data);
+	userStore.addTask(data);
 
-  notification('Task Added', 'success');
+	notification('Task Added', 'success');
 
-  taskTitle.value = '';
-  subtext.value = '';
-  priority.value = '';
-  date.value = null;
+	taskTitle.value = '';
+	subtext.value = '';
+	priority.value = '';
+	date.value = null;
 };
 
 onMounted(() => {
-  userStore.loadUser();
+	userStore.loadUser();
 });
 </script>
 
 <template>
-  <form class="form" @submit.prevent="addTask">
-    <div class="title">#Add Task</div>
+	<form class="form" @submit.prevent="addTask">
+		<div class="title">#Add Task</div>
 
-    <VueDatePicker
-      v-model="date"
-      :dark="isDark()"
-      :flow="flow"
-      :min-date="minDate"
-      auto-apply
-      class="date"
-      locale="ru"
-      placeholder="#select a date"
-    />
+		<VueDatePicker
+			v-model="date"
+			:dark="isDark()"
+			:flow="flow"
+			:min-date="minDate"
+			auto-apply
+			class="date"
+			locale="ru"
+			placeholder="#select a date"
+		/>
 
-    <div class="container">
-      <div class="priority">
-        <BarChartBig :size="18" />
+		<div class="container">
+			<div class="priority">
+				<BarChartBig :size="18" />
 
-        <select v-model="priority">
-          <option hidden value="">priority</option>
-          <option value="C">❄️Low</option>
-          <option value="B">⭐Medium</option>
-          <option value="A">🔥High</option>
-        </select>
-      </div>
+				<select v-model="priority">
+					<option hidden value="">priority</option>
+					<option value="C">❄️Low</option>
+					<option value="B">⭐Medium</option>
+					<option value="A">🔥High</option>
+				</select>
+			</div>
 
-      <div class="input">
-        <Clipboard :size="18" />
+			<div class="input">
+				<Clipboard :size="18" />
 
-        <input v-model="taskTitle" placeholder="#add title" type="text" />
-      </div>
-    </div>
+				<input v-model="taskTitle" placeholder="#add title" type="text" />
+			</div>
+		</div>
 
-    <div class="input">
-      <Hash :size="18" />
+		<div class="input">
+			<Hash :size="18" />
 
-      <input v-model="subtext" placeholder="#add text for task" type="text" />
-    </div>
+			<input v-model="subtext" placeholder="#add text for task" type="text" />
+		</div>
 
-    <button :class="{shake: shake}" type="submit">#Add Task</button>
-  </form>
+		<button :class="{shake: shake}" type="submit">#Add Task</button>
+	</form>
 </template>
 
 <style scoped>

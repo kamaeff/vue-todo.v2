@@ -33,7 +33,7 @@
                 width: 100%;
                 cursor: pointer;
                 font-family: "Rubik", sans-serif;
-                font-size: 12px;
+                font-size: 14px;
 
                 background-color: transparent;
 
@@ -52,13 +52,10 @@
             }
         }
 
-
     }
 
     .date {
         input {
-            font-family: "Rubik", sans-serif;
-            font-size: 14px !important;
 
             background: var(--color-border);
 
