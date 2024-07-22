@@ -4,6 +4,7 @@ import draggable from 'vuedraggable';
 import {computed, ref} from 'vue';
 import MainForm from '@/views/Home/main/components/MainForm.vue';
 import {tasks} from '@/store/tasks-mocks.js';
+import {notification} from '@/lib/toastService.js';
 
 const drag = ref(false);
 
@@ -44,17 +45,16 @@ const updateTaskStatus = (columnName, evt) => {
     if (movedItem) {
       movedItem.status = columnName;
       _tasks.value = [..._tasks.value];
+
+      if (movedItem.status === 'done')
+        notification('Gratz! Task completed', 'success');
     }
   }
 };
 </script>
 
-<!--
-TODO: Сделать возможность переносить по двойному клику на сл уровень + придумать плавные анимации
-TODO: Пофиксить стили на адаптиве на телефонке
-TODO: Доделать стили самих задач
-TODO: Перенести style в div в css
--->
+<!--TODO: Сделать возможность переносить по двойному клику на сл уровень + придумать плавные анимации-->
+<!--TODO: Пофиксить стили на адаптиве на телефонке-->
 
 <template>
   <div class="main">
