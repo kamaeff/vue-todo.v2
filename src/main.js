@@ -6,7 +6,7 @@ import '@vuepic/vue-datepicker/dist/main.css';
 import 'vue3-toastify/dist/index.css';
 
 import App from './App.vue';
-import router from './routes/index';
+import router from './routes/routes.js';
 import './assets/styles.css';
 
 const app = createApp(App);

@@ -5,8 +5,7 @@
     height: 80vh;
 
     display: flex;
-    align-items: center;
-
+    align-items: flex-start;
     gap: 40px;
     margin: 0 auto;
 
@@ -36,33 +35,89 @@
         .inProgress,
         .done {
             width: 90%;
-
+            /*width: 30%;*/
             display: flex;
             flex-direction: column;
-
             gap: 10px;
+            overflow-y: auto;
+            max-height: 80vh;
+            padding-right: 10px;
 
-            .title {
-                display: flex;
-                align-items: center;
+            .header {
+                position: sticky;
+                top: 0;
+                background-color: var(--color-background);
+                z-index: 1;
 
-                gap: 5px;
-                margin-bottom: 10px;
 
-                font-size: 18px;
-            }
-
-            .drag {
-                height: 100%;
-            }
-
-            .item {
-                padding: 0;
-
-                li {
-                    list-style: none;
+                .title {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: var(--color-text);
                 }
             }
+
+            .content {
+                overflow-y: auto;
+                height: calc(80vh - 50px);
+
+
+                .title {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: var(--color-text);
+                }
+
+                .drag {
+                    height: 100%;
+                }
+
+                .item {
+                    width: 90%;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 5px;
+                    padding: 10px;
+                    cursor: move;
+                    border: 1px solid transparent;
+                    border-radius: 10px;
+                    background-color: var(--color-background);
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    transition: all 0.2s;
+
+                    div {
+                        display: flex;
+                        align-items: center;
+                        gap: 5px;
+                    }
+
+                    p {
+                        font-weight: 300;
+                        font-size: 14px;
+                    }
+
+                    &:hover {
+                        border: 1px dashed var(--color-border);
+                        background-color: var(--color-background-mute);
+                        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+                    }
+
+                    &.dragging {
+                        border: 2px solid #999;
+                        background-color: #000000;
+                        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+                    }
+                }
+            }
+
         }
     }
 }
