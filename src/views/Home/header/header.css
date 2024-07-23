@@ -6,6 +6,15 @@ header {
     align-items: center;
     padding: 10px 0;
 
+    .logo {
+        position: absolute;
+
+        left: 3%;
+
+        font-size: 20px;
+
+    }
+
     .profile {
         position: absolute;
 
@@ -20,7 +29,7 @@ header {
 
             padding: 4px 10px;
             font-family: "Rubik", sans-serif;
-            font-size: 12px;
+            font-size: 14px;
 
             background: inherit;
             outline: none;

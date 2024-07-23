@@ -71,13 +71,15 @@ const todoTasks = computed(
 
 <template>
   <header>
+    <div class="logo">#TaskList</div>
+
     <div class="profile">
       <button
         :title="userStore.username !== '' ? 'Profile' : 'Sign in'"
         type="button"
         @click="openModal"
       >
-        <CircleUserRound :size="22" :strokeWidth="1" />
+        <CircleUserRound :size="24" :strokeWidth="1" />
         {{ userStore.username !== '' ? userStore.username : 'Sign in' }}
       </button>
     </div>
