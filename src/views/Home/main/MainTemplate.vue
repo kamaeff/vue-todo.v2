@@ -125,7 +125,7 @@ nextTick(() => {
 </script>
 
 <template>
-  <!--  <div v-if="addData" class="overlay" @click="closeModal"></div>-->
+  <div v-if="addData" class="overlay" @click="closeModal"></div>
   <div class="main">
     <Transition name="left">
       <MainForm

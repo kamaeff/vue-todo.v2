@@ -85,7 +85,7 @@ const todoTasks = computed(
 
   <div v-if="isModalOpen" class="overlay" @click="closeModal"></div>
 
-  <Transition name="bounce">
+  <Transition name="right">
     <div v-if="isModalOpen" class="modal" @click.stop>
       <button class="close" title="Close" @click="closeModal">
         <X />
@@ -134,9 +134,6 @@ const todoTasks = computed(
 
       <div class="stats">
         <h2>Stats</h2>
-        <p class="name">
-          {{ userStore.name !== '' ? userStore.name : 'My name' }}
-        </p>
 
         <div class="item">
           <p>
