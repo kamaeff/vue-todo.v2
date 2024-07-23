@@ -82,6 +82,8 @@ const updateTaskStatus = (columnName, evt) => {
 const addTask = newTask => {
   _tasks.value.push(newTask);
   userStore.addTask(newTask);
+
+  addData.value = false;
 };
 
 const deleteTask = id => {
