@@ -3,6 +3,7 @@ import draggable from 'vuedraggable';
 import {computed, onMounted, ref} from 'vue';
 import {
   FilePenLine,
+  Plus,
   SaveAll,
   SquareCheckBig,
   Trash2,
@@ -18,17 +19,21 @@ const drag = ref(false);
 const userStore = useUserStore();
 const _tasks = ref([]);
 const isEdit = ref({});
+const addData = ref(false);
 
 onMounted(() => {
   userStore.loadUser();
   setTimeout(() => {
-    console.log(userStore.tasks);
     _tasks.value = userStore.tasks.map(task => ({
       ...task,
       status: task.status || 'new',
     }));
   }, 1000);
 });
+
+const closeModal = () => {
+  addData.value = false;
+};
 
 const getPriorityIcon = priority => {
   switch (priority) {
@@ -93,16 +98,29 @@ const saveTask = (id, newSubtext) => {
   isEdit.value[id] = false;
 
   const taskIndex = _tasks.value.findIndex(task => task.id === id);
-  if (taskIndex !== -1) {
+  if (taskIndex !== -1 && newSubtext.length > 0) {
+    const task = _tasks.value[taskIndex];
     _tasks.value[taskIndex].subtext = newSubtext;
     userStore.updateTask(id, _tasks.value[taskIndex]);
+
+    notification(`Task ${task.taskTitle} was saved`, 'success');
+  } else {
+    notification(`Task wasn't saved`, 'warning');
   }
 };
 </script>
 
 <template>
+  <div v-if="addData" class="overlay" @click="closeModal"></div>
   <div class="main">
-    <MainForm @add-task="addTask" />
+    <Transition name="bounce">
+      <MainForm
+        v-show="addData"
+        title="#addTask"
+        @close="closeModal"
+        @add-task="addTask"
+      />
+    </Transition>
 
     <div class="list">
       <div class="column new">
@@ -111,6 +129,9 @@ const saveTask = (id, newSubtext) => {
             <X :size="20" color="red" />
             #New
           </p>
+          <button type="button" @click="addData = !addData">
+            <Plus />
+          </button>
         </div>
         <div class="content">
           <draggable
@@ -123,7 +144,7 @@ const saveTask = (id, newSubtext) => {
           >
             <template #item="{element}">
               <div :key="element.id" :data-id="element.id" class="item">
-                <div>
+                <div class="title">
                   <h3>
                     {{ getPriorityIcon(element.priority) + element.taskTitle }}
                   </h3>
@@ -141,7 +162,7 @@ const saveTask = (id, newSubtext) => {
                   <input
                     v-model="element.subtext"
                     :class="['edit-input', {isEdit: isEdit[element.id]}]"
-                    :readonly="!isEdit"
+                    :readonly="!isEdit[element.id]"
                     :value="element.subtext"
                     name="subtext"
                     type="text"
@@ -199,7 +220,7 @@ const saveTask = (id, newSubtext) => {
           >
             <template #item="{element}">
               <div :key="element.id" :data-id="element.id" class="item">
-                <div>
+                <div class="title">
                   <h3>
                     {{ getPriorityIcon(element.priority) + element.taskTitle }}
                   </h3>
@@ -217,7 +238,7 @@ const saveTask = (id, newSubtext) => {
                   <input
                     v-model="element.subtext"
                     :class="['edit-input', {isEdit: isEdit[element.id]}]"
-                    :readonly="!isEdit"
+                    :readonly="!isEdit[element.id]"
                     :value="element.subtext"
                     name="subtext"
                     type="text"
@@ -275,8 +296,13 @@ const saveTask = (id, newSubtext) => {
             @start="drag = true"
           >
             <template #item="{element}">
-              <div :key="element.id" :data-id="element.id" class="item">
-                <div>
+              <div
+                :key="element.id"
+                :class="{}"
+                :data-id="element.id"
+                class="item task-done"
+              >
+                <div class="title">
                   <h3>
                     {{ getPriorityIcon(element.priority) + element.taskTitle }}
                   </h3>
@@ -294,7 +320,7 @@ const saveTask = (id, newSubtext) => {
                   <input
                     v-model="element.subtext"
                     :class="['edit-input', {isEdit: isEdit[element.id]}]"
-                    :readonly="!isEdit"
+                    :readonly="!isEdit[element.id]"
                     :value="element.subtext"
                     name="subtext"
                     type="text"

@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, onUnmounted, ref, watch} from 'vue';
+import {computed, onMounted, onUnmounted, ref, watch} from 'vue';
 import {
   ChevronsRight,
   CircleUserRound,
@@ -56,6 +56,17 @@ onMounted(() => {
 onUnmounted(() => {
   document.removeEventListener('keyup', handleEscKey);
 });
+
+const totalTasks = computed(() => userStore.tasks.length);
+const doneTasks = computed(
+  () => userStore.tasks.filter(task => task.status === 'done').length,
+);
+const inProgressTasks = computed(
+  () => userStore.tasks.filter(task => task.status === 'inProgress').length,
+);
+const todoTasks = computed(
+  () => userStore.tasks.filter(task => task.status === 'new').length,
+);
 </script>
 
 <template>
@@ -67,7 +78,6 @@ onUnmounted(() => {
         @click="openModal"
       >
         <CircleUserRound :size="22" :strokeWidth="1" />
-
         {{ userStore.username !== '' ? userStore.username : 'Sign in' }}
       </button>
     </div>
@@ -84,7 +94,6 @@ onUnmounted(() => {
       <div class="content">
         <h2>
           <CircleUserRound :size="26" :strokeWidth="1" />
-
           {{ userStore.username !== '' ? userStore.username : 'User' }}
         </h2>
 
@@ -123,7 +132,6 @@ onUnmounted(() => {
         </form>
       </div>
 
-      <!--TODO: Сделать вывод по length-->
       <div class="stats">
         <h2>Stats</h2>
         <p class="name">
@@ -135,7 +143,7 @@ onUnmounted(() => {
             <Tally5 :size="16" color="gray" />
             Total
           </p>
-          <span>123</span>
+          <span>{{ totalTasks }}</span>
         </div>
 
         <div class="item">
@@ -143,8 +151,7 @@ onUnmounted(() => {
             <SquareCheckBig :size="16" color="green" />
             Done
           </p>
-
-          <span>50</span>
+          <span>{{ doneTasks }}</span>
         </div>
 
         <div class="item">
@@ -152,7 +159,7 @@ onUnmounted(() => {
             <TriangleAlert :size="16" color="yellow" />
             InProgress
           </p>
-          <span>2</span>
+          <span>{{ inProgressTasks }}</span>
         </div>
 
         <div class="item">
@@ -160,7 +167,7 @@ onUnmounted(() => {
             <X :size="16" color="red" />
             ToDo
           </p>
-          <span>56</span>
+          <span>{{ todoTasks }}</span>
         </div>
       </div>
 

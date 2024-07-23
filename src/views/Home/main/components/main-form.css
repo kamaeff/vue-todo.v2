@@ -1,4 +1,10 @@
 .form {
+    position: absolute;
+
+    width: 40%;
+
+    top: 0;
+
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -6,19 +12,41 @@
     padding: 10px;
 
     border: 1px solid var(--color-border);
+    background-color: var(--color-background-mute);
     border-radius: 10px;
+
+    z-index: 1000;
+
+    .close {
+        cursor: pointer;
+        position: absolute;
+        right: 2%;
+
+        outline: none;
+        border: none;
+        background-color: transparent;
+
+        color: var(--color-text);
+
+        transition: 0.3s ease-in-out;
+
+        &:hover {
+            transform: translateY(-5px);
+        }
+    }
 
     .title {
         font-size: 24px;
     }
 
     .container {
+
         display: flex;
         align-items: center;
         gap: 10px;
 
         .priority {
-            width: 40%;
+
             display: flex;
             align-items: center;
 
@@ -70,6 +98,7 @@
     }
 
     .input {
+        width: 100%;
         height: 35px;
 
         display: flex;
@@ -84,7 +113,7 @@
         transition: 0.5s ease-in-out;
 
         input[type="text"] {
-            width: 90%;
+            /*width: 90%;*/
             font-family: "Rubik", sans-serif;
 
             padding-left: 7px;

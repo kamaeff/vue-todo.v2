@@ -1,12 +1,11 @@
-
 .main {
     position: relative;
-    width: 95%;
+    width: 100%;
     height: 80vh;
 
     display: flex;
     align-items: center;
-    gap: 40px;
+    justify-content: center;
     margin: 0 auto;
 
     h2 {
@@ -15,7 +14,7 @@
 
 
     .list {
-        width: 80%;
+        width: 100%;
         height: 100%;
 
         display: flex;
@@ -34,7 +33,7 @@
         .new,
         .inProgress,
         .done {
-            width: 90%;
+            width: 100%;
             /*width: 30%;*/
             display: flex;
             flex-direction: column;
@@ -44,19 +43,34 @@
             padding-right: 10px;
 
             .header {
-                position: sticky;
-                top: 0;
+                width: 90%;
                 background-color: var(--color-background);
                 z-index: 1;
 
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 10px;
 
                 .title {
                     display: flex;
                     align-items: center;
+
                     gap: 5px;
-                    margin-bottom: 10px;
-                    font-size: 18px;
+
+                    font-size: 16px;
                     font-weight: bold;
+                    color: var(--color-text);
+                }
+
+                button {
+                    cursor: pointer;
+                    padding: 0;
+
+                    border: none;
+                    outline: none;
+                    background-color: transparent;
+
                     color: var(--color-text);
                 }
             }
@@ -95,22 +109,26 @@
                     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
                     transition: all 0.2s;
 
-                    div {
+                    .title {
+                        max-width: 70%;
                         display: flex;
                         align-items: center;
                         gap: 5px;
+
+                        font-size: 14px;
+
+                        span {
+                            font-weight: 300;
+                            font-size: 14px;
+                        }
                     }
 
-                    p {
-                        font-weight: 300;
-                        font-size: 14px;
-                    }
 
                     .form-group {
                         position: relative;
                         text-align: left;
 
-                        margin-top: 10px;
+                        margin-top: 5px;
 
                         label {
                             display: none;

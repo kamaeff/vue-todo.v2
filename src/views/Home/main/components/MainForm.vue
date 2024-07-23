@@ -2,7 +2,7 @@
 import {computed, onMounted, ref} from 'vue';
 import {format, getDate, getMonth, getYear} from 'date-fns';
 
-import {BarChartBig, Clipboard, Hash} from 'lucide-vue-next';
+import {BarChartBig, Clipboard, Hash, X} from 'lucide-vue-next';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -31,6 +31,10 @@ const minDate = computed(() => {
 const formatDate = date => {
   if (!date) return '';
   return format(date, 'dd.MM.yyyy HH:mm');
+};
+
+const closeModal = () => {
+  emit('close');
 };
 
 const addTask = () => {
@@ -77,6 +81,9 @@ onMounted(() => {
 
 <template>
   <form class="form" @submit.prevent="addTask">
+    <button class="close" type="button" @click="closeModal">
+      <X />
+    </button>
     <div class="title">#Add Task</div>
 
     <VueDatePicker
