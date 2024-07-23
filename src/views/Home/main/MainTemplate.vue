@@ -1,6 +1,6 @@
 <script setup>
 import draggable from 'vuedraggable';
-import {computed, onMounted, ref} from 'vue';
+import {computed, nextTick, onMounted, ref} from 'vue';
 import {
   FilePenLine,
   Plus,
@@ -110,6 +110,18 @@ const saveTask = (id, newSubtext) => {
     notification(`Task wasn't saved`, 'warning');
   }
 };
+
+const autoResizeTextarea = event => {
+  const textarea = event.target;
+  textarea.style.height = 'auto';
+  textarea.style.height = textarea.scrollHeight + 'px';
+};
+
+nextTick(() => {
+  document.querySelectorAll('textarea').forEach(textarea => {
+    textarea.addEventListener('input', autoResizeTextarea);
+  });
+});
 </script>
 
 <template>
@@ -160,14 +172,13 @@ const saveTask = (id, newSubtext) => {
                     Edit
                   </label>
 
-                  <input
+                  <textarea
                     v-model="element.subtext"
                     :class="['edit-input', {isEdit: isEdit[element.id]}]"
                     :readonly="!isEdit[element.id]"
-                    :value="element.subtext"
                     name="subtext"
-                    type="text"
-                  />
+                    @input="autoResizeTextarea"
+                  ></textarea>
                 </div>
 
                 <div class="btns">
@@ -234,14 +245,13 @@ const saveTask = (id, newSubtext) => {
                     Edit
                   </label>
 
-                  <input
+                  <textarea
                     v-model="element.subtext"
                     :class="['edit-input', {isEdit: isEdit[element.id]}]"
                     :readonly="!isEdit[element.id]"
-                    :value="element.subtext"
                     name="subtext"
-                    type="text"
-                  />
+                    @input="autoResizeTextarea"
+                  ></textarea>
                 </div>
 
                 <div class="btns">
@@ -318,15 +328,14 @@ const saveTask = (id, newSubtext) => {
                     Edit
                   </label>
 
-                  <input
+                  <textarea
                     v-model="element.subtext"
                     :class="['edit-input', {isEdit: isEdit[element.id]}]"
                     :hidden="element.status === 'done'"
                     :readonly="!isEdit[element.id]"
-                    :value="element.subtext"
                     name="subtext"
-                    type="text"
-                  />
+                    @input="autoResizeTextarea"
+                  ></textarea>
                 </div>
 
                 <div class="btns">

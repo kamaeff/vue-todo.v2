@@ -2,7 +2,7 @@
 import {computed, onMounted, ref} from 'vue';
 import {format, getDate, getMonth, getYear} from 'date-fns';
 
-import {BarChartBig, Clipboard, Hash, X} from 'lucide-vue-next';
+import {BarChartBig, Clipboard, X} from 'lucide-vue-next';
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css';
 
@@ -38,7 +38,6 @@ const closeModal = () => {
 };
 
 const addTask = () => {
-  // TODO: Сделать вывод даты в виде день->месяц->год и время
   const formattedDate = formatDate(date.value);
   const data = {
     id: String(Date.now()),
@@ -116,10 +115,8 @@ onMounted(() => {
       </div>
     </div>
 
-    <div class="input">
-      <Hash :size="18" />
-
-      <input v-model="subtext" placeholder="#add text for task" type="text" />
+    <div class="textarea">
+      <textarea v-model="subtext" placeholder="#add text for task"></textarea>
     </div>
 
     <button :class="{shake: shake}" type="submit">#Add Task</button>
