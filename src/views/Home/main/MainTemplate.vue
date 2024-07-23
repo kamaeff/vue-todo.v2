@@ -301,7 +301,9 @@ const saveTask = (id, newSubtext) => {
                 :data-id="element.id"
                 class="item task-done"
               >
-                <h3 class="title">
+                <h3
+                  :class="['title', {'small-title': element.status === 'done'}]"
+                >
                   {{ getPriorityIcon(element.priority) + element.taskTitle }}
                 </h3>
                 <p :hidden="element.status === 'done'">

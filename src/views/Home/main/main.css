@@ -144,7 +144,7 @@
                             transition: top 0.3s,
                             font-size 0.3s;
 
-                            background: var(--color-background);
+                            background: var(--color-background-mute);
                             font-weight: 500;
 
                         }
@@ -159,12 +159,13 @@
                             font-weight: 300;
 
                             color: var(--color-text);
-                            background: var(--color-background);
+                            background: transparent;
 
                             outline: none;
 
                             border-radius: 10px;
                             border: 1px solid var(--color-border);
+
                         }
 
                         .isEdit {
@@ -226,7 +227,12 @@
 
 
 .task-done {
+    height: 7%;
     text-decoration: line-through;
+}
+
+.small-title {
+    font-size: 14px !important;
 }
 
 .dp__input_icon {
