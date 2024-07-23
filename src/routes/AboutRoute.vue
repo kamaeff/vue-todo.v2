@@ -1,5 +1,5 @@
 <script setup>
-import { House } from 'lucide-vue-next';
+import {House} from 'lucide-vue-next';
 </script>
 
 <template>
