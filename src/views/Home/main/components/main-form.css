@@ -1,9 +1,10 @@
 .form {
     position: absolute;
 
-    width: 40%;
+    width: 30%;
+    height: 100%;
 
-    top: 0;
+    left: 10px;
 
     display: flex;
     flex-direction: column;

@@ -14,33 +14,31 @@
 
 
     .list {
-        width: 100%;
+        width: 80%;
         height: 100%;
 
         display: flex;
 
         gap: 20px;
 
-        .new {
-            margin-left: 20px;
-        }
+        border-radius: 8px;
 
         .new,
         .inProgress {
-            border-right: 1px solid var(--color-border);
+            border-right: 2px solid var(--color-border);
         }
 
         .new,
         .inProgress,
         .done {
-            width: 100%;
-            /*width: 30%;*/
+            width: 90%;
+
             display: flex;
             flex-direction: column;
             gap: 10px;
             overflow-y: auto;
             max-height: 80vh;
-            padding-right: 10px;
+
 
             .header {
                 width: 90%;
@@ -72,6 +70,12 @@
                     background-color: transparent;
 
                     color: var(--color-text);
+
+                    transition: 0.3s ease-in-out;
+
+                    &:hover {
+                        scale: 1.1;
+                    }
                 }
             }
 
@@ -84,8 +88,8 @@
                     display: flex;
                     align-items: center;
                     gap: 5px;
-                    margin-bottom: 10px;
-                    font-size: 18px;
+
+                    font-size: 20px;
                     font-weight: bold;
                     color: var(--color-text);
                 }
@@ -100,7 +104,7 @@
                     width: 90%;
                     display: flex;
                     flex-direction: column;
-                    gap: 5px;
+
                     padding: 10px;
                     cursor: move;
                     border: 1px solid transparent;
@@ -115,12 +119,12 @@
                         align-items: center;
                         gap: 5px;
 
-                        font-size: 14px;
+                        font-size: 16px;
+                    }
 
-                        span {
-                            font-weight: 300;
-                            font-size: 14px;
-                        }
+                    p {
+                        font-weight: 300;
+                        font-size: 14px;
                     }
 
 
@@ -128,7 +132,7 @@
                         position: relative;
                         text-align: left;
 
-                        margin-top: 5px;
+                        margin-top: 10px;
 
                         label {
                             display: none;
@@ -145,7 +149,6 @@
 
                         }
 
-
                         .edit-input {
                             width: 100%;
                             height: 30px;
@@ -153,7 +156,7 @@
                             padding: 0 0 0 10px;
 
                             font-family: "Rubik", sans-serif;
-                            font-weight: 500;
+                            font-weight: 300;
 
                             color: var(--color-text);
                             background: var(--color-background);
@@ -161,7 +164,7 @@
                             outline: none;
 
                             border-radius: 10px;
-                            border: 2px solid var(--color-border);
+                            border: 1px solid var(--color-border);
                         }
 
                         .isEdit {
@@ -252,6 +255,24 @@
 
     animation: shake 0.5s;
 }
+
+.left-enter-active {
+    animation: left-anim 0.5s;
+}
+
+.left-leave-active {
+    animation: left-anim 0.5s reverse;
+}
+
+@keyframes left-anim {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
 
 /*TODO: Сделать нормальный адаптив*/
 

@@ -113,9 +113,9 @@ const saveTask = (id, newSubtext) => {
 </script>
 
 <template>
-  <div v-if="addData" class="overlay" @click="closeModal"></div>
+  <!--  <div v-if="addData" class="overlay" @click="closeModal"></div>-->
   <div class="main">
-    <Transition name="bounce">
+    <Transition name="left">
       <MainForm
         v-show="addData"
         title="#addTask"
@@ -128,13 +128,14 @@ const saveTask = (id, newSubtext) => {
       <div class="column new">
         <div class="header">
           <p class="title">
-            <X :size="20" color="red" />
-            #New
+            <X :size="18" color="red" />
+            #TODO
           </p>
           <button type="button" @click="addData = !addData">
-            <Plus />
+            <Plus :size="18" />
           </button>
         </div>
+
         <div class="content">
           <draggable
             v-model="columns.new"
@@ -146,12 +147,10 @@ const saveTask = (id, newSubtext) => {
           >
             <template #item="{element}">
               <div :key="element.id" :data-id="element.id" class="item">
-                <div class="title">
-                  <h3>
-                    {{ getPriorityIcon(element.priority) + element.taskTitle }}
-                  </h3>
-                  <span>({{ element.date }})</span>
-                </div>
+                <h3 class="title">
+                  {{ getPriorityIcon(element.priority) + element.taskTitle }}
+                </h3>
+                <p>#Done at: [ {{ element.date }} ]</p>
 
                 <div class="form-group">
                   <label
@@ -222,12 +221,10 @@ const saveTask = (id, newSubtext) => {
           >
             <template #item="{element}">
               <div :key="element.id" :data-id="element.id" class="item">
-                <div class="title">
-                  <h3>
-                    {{ getPriorityIcon(element.priority) + element.taskTitle }}
-                  </h3>
-                  <span>({{ element.date }})</span>
-                </div>
+                <h3 class="title">
+                  {{ getPriorityIcon(element.priority) + element.taskTitle }}
+                </h3>
+                <p>#Done at: [ {{ element.date }} ]</p>
 
                 <div class="form-group">
                   <label
@@ -304,12 +301,12 @@ const saveTask = (id, newSubtext) => {
                 :data-id="element.id"
                 class="item task-done"
               >
-                <div class="title">
-                  <h3>
-                    {{ getPriorityIcon(element.priority) + element.taskTitle }}
-                  </h3>
-                  <span>({{ element.date }})</span>
-                </div>
+                <h3 class="title">
+                  {{ getPriorityIcon(element.priority) + element.taskTitle }}
+                </h3>
+                <p :hidden="element.status === 'done'">
+                  #Done at: [ {{ element.date }} ]
+                </p>
 
                 <div class="form-group">
                   <label
