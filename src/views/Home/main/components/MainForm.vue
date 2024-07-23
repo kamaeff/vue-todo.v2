@@ -1,6 +1,6 @@
 <script setup>
 import {computed, onMounted, ref} from 'vue';
-import {getDate, getMonth, getYear} from 'date-fns';
+import {format, getDate, getMonth, getYear} from 'date-fns';
 
 import {BarChartBig, Clipboard, Hash} from 'lucide-vue-next';
 import VueDatePicker from '@vuepic/vue-datepicker';
@@ -10,6 +10,8 @@ import {isDark, notification} from '@/lib/toastService.js';
 import {useUserStore} from '@/store/user';
 
 const userStore = useUserStore();
+
+const emit = defineEmits(['add-task']);
 
 const date = ref('');
 const flow = ref(['month', 'year', 'calendar', 'time']);
@@ -26,13 +28,21 @@ const minDate = computed(() => {
   return `${getYear(today)}-${month}-${day}T00:00:00Z`;
 });
 
+const formatDate = date => {
+  if (!date) return '';
+  return format(date, 'dd.MM.yyyy HH:mm');
+};
+
 const addTask = () => {
   // TODO: Сделать вывод даты в виде день->месяц->год и время
+  const formattedDate = formatDate(date.value);
   const data = {
-    date: String(date?.value || ''),
+    id: String(Date.now()),
+    date: String(formattedDate),
     priority: String(priority?.value || ''),
     taskTitle: String(taskTitle?.value || ''),
     subtext: String(subtext?.value || ''),
+    status: 'new',
   };
 
   const isAllFieldsFilled = Object.values(data).every(
@@ -50,7 +60,7 @@ const addTask = () => {
     return () => clearTimeout(timeout);
   }
 
-  userStore.addTask(data);
+  emit('add-task', data);
 
   notification('Task Added', 'success');
 

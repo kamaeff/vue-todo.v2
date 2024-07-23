@@ -1,14 +1,34 @@
 <script setup>
-import {SquareCheckBig, TriangleAlert, X} from 'lucide-vue-next';
 import draggable from 'vuedraggable';
-import {computed, ref} from 'vue';
+import {computed, onMounted, ref} from 'vue';
+import {
+  FilePenLine,
+  SaveAll,
+  SquareCheckBig,
+  Trash2,
+  TriangleAlert,
+  X,
+} from 'lucide-vue-next';
+
 import MainForm from '@/views/Home/main/components/MainForm.vue';
-import {tasks} from '@/store/tasks-mocks.js';
 import {notification} from '@/lib/toastService.js';
+import {useUserStore} from '@/store/user.js';
 
 const drag = ref(false);
+const userStore = useUserStore();
+const _tasks = ref([]);
+const isEdit = ref({});
 
-const _tasks = ref(tasks);
+onMounted(() => {
+  userStore.loadUser();
+  setTimeout(() => {
+    console.log(userStore.tasks);
+    _tasks.value = userStore.tasks.map(task => ({
+      ...task,
+      status: task.status || 'new',
+    }));
+  }, 1000);
+});
 
 const getPriorityIcon = priority => {
   switch (priority) {
@@ -23,6 +43,11 @@ const getPriorityIcon = priority => {
   }
 };
 
+const sortByPriority = (a, b) => {
+  const priorityOrder = {A: 1, B: 2, C: 3};
+  return priorityOrder[a.priority] - priorityOrder[b.priority];
+};
+
 const columns = computed(() => ({
   new: _tasks.value.filter(task => task.status === 'new').sort(sortByPriority),
   inProgress: _tasks.value
@@ -33,11 +58,6 @@ const columns = computed(() => ({
     .sort(sortByPriority),
 }));
 
-const sortByPriority = (a, b) => {
-  const priorityOrder = {A: 1, B: 2, C: 3};
-  return priorityOrder[a.priority] - priorityOrder[b.priority];
-};
-
 const updateTaskStatus = (columnName, evt) => {
   if (evt.added) {
     const movedItemId = evt.added.element.id;
@@ -46,19 +66,43 @@ const updateTaskStatus = (columnName, evt) => {
       movedItem.status = columnName;
       _tasks.value = [..._tasks.value];
 
+      userStore.updateTask(movedItemId, movedItem);
+
       if (movedItem.status === 'done')
         notification('Gratz! Task completed', 'success');
     }
   }
 };
-</script>
 
-<!--TODO: Сделать возможность переносить по двойному клику на сл уровень + придумать плавные анимации-->
-<!--TODO: Пофиксить стили на адаптиве на телефонке-->
+const addTask = newTask => {
+  _tasks.value.push(newTask);
+  userStore.addTask(newTask);
+};
+
+const deleteTask = id => {
+  userStore.removeTask(id);
+
+  _tasks.value = _tasks.value.filter(task => task.id !== id);
+};
+
+const editTask = id => {
+  isEdit.value[id] = true;
+};
+
+const saveTask = (id, newSubtext) => {
+  isEdit.value[id] = false;
+
+  const taskIndex = _tasks.value.findIndex(task => task.id === id);
+  if (taskIndex !== -1) {
+    _tasks.value[taskIndex].subtext = newSubtext;
+    userStore.updateTask(id, _tasks.value[taskIndex]);
+  }
+};
+</script>
 
 <template>
   <div class="main">
-    <MainForm />
+    <MainForm @add-task="addTask" />
 
     <div class="list">
       <div class="column new">
@@ -81,11 +125,56 @@ const updateTaskStatus = (columnName, evt) => {
               <div :key="element.id" :data-id="element.id" class="item">
                 <div>
                   <h3>
-                    {{ getPriorityIcon(element.priority) + element.title }}
+                    {{ getPriorityIcon(element.priority) + element.taskTitle }}
                   </h3>
                   <span>({{ element.date }})</span>
                 </div>
-                <p>{{ element.text }}</p>
+
+                <div class="form-group">
+                  <label
+                    :class="{'show-label': isEdit[element.id]}"
+                    for="subtext"
+                  >
+                    Edit
+                  </label>
+
+                  <input
+                    v-model="element.subtext"
+                    :class="['edit-input', {isEdit: isEdit[element.id]}]"
+                    :readonly="!isEdit"
+                    :value="element.subtext"
+                    name="subtext"
+                    type="text"
+                  />
+                </div>
+
+                <div class="btns">
+                  <button
+                    :class="{hide: isEdit[element.id]}"
+                    title="#edit"
+                    type="button"
+                    @click="editTask(element.id)"
+                  >
+                    <FilePenLine :size="20" />
+                  </button>
+
+                  <button
+                    :class="{hide: !isEdit[element.id]}"
+                    title="#save"
+                    type="button"
+                    @click="saveTask(element.id, element.subtext)"
+                  >
+                    <SaveAll :size="20" />
+                  </button>
+
+                  <button
+                    title="#delete"
+                    type="button"
+                    @click="deleteTask(element.id)"
+                  >
+                    <Trash2 :size="20" />
+                  </button>
+                </div>
               </div>
             </template>
           </draggable>
@@ -112,11 +201,56 @@ const updateTaskStatus = (columnName, evt) => {
               <div :key="element.id" :data-id="element.id" class="item">
                 <div>
                   <h3>
-                    {{ getPriorityIcon(element.priority) + element.title }}
+                    {{ getPriorityIcon(element.priority) + element.taskTitle }}
                   </h3>
                   <span>({{ element.date }})</span>
                 </div>
-                <p>{{ element.text }}</p>
+
+                <div class="form-group">
+                  <label
+                    :class="{'show-label': isEdit[element.id]}"
+                    for="subtext"
+                  >
+                    Edit
+                  </label>
+
+                  <input
+                    v-model="element.subtext"
+                    :class="['edit-input', {isEdit: isEdit[element.id]}]"
+                    :readonly="!isEdit"
+                    :value="element.subtext"
+                    name="subtext"
+                    type="text"
+                  />
+                </div>
+
+                <div class="btns">
+                  <button
+                    :class="{hide: isEdit[element.id]}"
+                    title="#edit"
+                    type="button"
+                    @click="editTask(element.id)"
+                  >
+                    <FilePenLine :size="20" />
+                  </button>
+
+                  <button
+                    :class="{hide: !isEdit[element.id]}"
+                    title="#save"
+                    type="button"
+                    @click="saveTask(element.id, element.subtext)"
+                  >
+                    <SaveAll :size="20" />
+                  </button>
+
+                  <button
+                    title="#delete"
+                    type="button"
+                    @click="deleteTask(element.id)"
+                  >
+                    <Trash2 :size="20" />
+                  </button>
+                </div>
               </div>
             </template>
           </draggable>
@@ -141,18 +275,59 @@ const updateTaskStatus = (columnName, evt) => {
             @start="drag = true"
           >
             <template #item="{element}">
-              <div
-                :key="element.id"
-                :data-id="element.id"
-                class="item task-done"
-              >
+              <div :key="element.id" :data-id="element.id" class="item">
                 <div>
                   <h3>
-                    {{ getPriorityIcon(element.priority) + element.title }}
+                    {{ getPriorityIcon(element.priority) + element.taskTitle }}
                   </h3>
                   <span>({{ element.date }})</span>
                 </div>
-                <p>{{ element.text }}</p>
+
+                <div class="form-group">
+                  <label
+                    :class="{'show-label': isEdit[element.id]}"
+                    for="subtext"
+                  >
+                    Edit
+                  </label>
+
+                  <input
+                    v-model="element.subtext"
+                    :class="['edit-input', {isEdit: isEdit[element.id]}]"
+                    :readonly="!isEdit"
+                    :value="element.subtext"
+                    name="subtext"
+                    type="text"
+                  />
+                </div>
+
+                <div class="btns">
+                  <button
+                    :class="{hide: isEdit[element.id]}"
+                    title="#edit"
+                    type="button"
+                    @click="editTask(element.id)"
+                  >
+                    <FilePenLine :size="20" />
+                  </button>
+
+                  <button
+                    :class="{hide: !isEdit[element.id]}"
+                    title="#save"
+                    type="button"
+                    @click="saveTask(element.id, element.subtext)"
+                  >
+                    <SaveAll :size="20" />
+                  </button>
+
+                  <button
+                    title="#delete"
+                    type="button"
+                    @click="deleteTask(element.id)"
+                  >
+                    <Trash2 :size="20" />
+                  </button>
+                </div>
               </div>
             </template>
           </draggable>
