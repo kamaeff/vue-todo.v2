@@ -322,6 +322,7 @@ const saveTask = (id, newSubtext) => {
                   <input
                     v-model="element.subtext"
                     :class="['edit-input', {isEdit: isEdit[element.id]}]"
+                    :hidden="element.status === 'done'"
                     :readonly="!isEdit[element.id]"
                     :value="element.subtext"
                     name="subtext"
@@ -332,6 +333,7 @@ const saveTask = (id, newSubtext) => {
                 <div class="btns">
                   <button
                     :class="{hide: isEdit[element.id]}"
+                    :hidden="element.status === 'done'"
                     title="#edit"
                     type="button"
                     @click="editTask(element.id)"
