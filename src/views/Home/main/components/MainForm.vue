@@ -56,7 +56,7 @@ const addTask = () => {
   );
 
   if (!isAllFieldsFilled) {
-    notification('Some fields are empty', 'warning');
+    notification('Some fields are empty', 'warning', 1500);
     shake.value = true;
 
     const timeout = setTimeout(() => {

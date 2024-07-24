@@ -1,17 +1,13 @@
 <script setup>
-import { Loader, House } from 'lucide-vue-next';
+import {ServerCrash} from 'lucide-vue-next';
 </script>
 
 <template>
   <div class="errPage">
-    <p>
-      <Loader class="item" :size="32" />
-      #404 Not Found
+    <p><ServerCrash :size="30" />404 Not Found</p>
+    <p class="sub">
+      Please return to the <a href="/vue-todo.v2/">main page</a>
     </p>
-
-    <a href="/vue-todo.v2/">
-      <House :stroke-width="1" /> Home
-    </a>
   </div>
 </template>
 
@@ -23,26 +19,32 @@ import { Loader, House } from 'lucide-vue-next';
   justify-content: center;
   align-items: center;
 
-  a {
-    display: flex;
-    align-items: center;
-
-    gap: 5px;
-    margin-top: 5px;
-
-    font-size: 16px;
-    color: var(--color-text);
-  }
+  gap: 5px;
 
   p {
     display: flex;
     align-items: center;
+
     gap: 5px;
 
     font-size: 22px;
+  }
 
-    .item {
-      animation: rotate 2s linear infinite;
+  .sub {
+    font-size: 14px;
+    font-weight: 300;
+
+    a {
+      color: var(--color-border);
+      text-decoration: none;
+
+      transition: 0.3s ease-in-out;
+
+      &:hover {
+        color: var(--color-text);
+
+        transform: translateX(5px);
+      }
     }
   }
 }

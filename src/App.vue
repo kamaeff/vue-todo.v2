@@ -1,10 +1,9 @@
-<script setup>
-import HeaderTemplate from '@/views/Home/header/HeaderTemplate.vue';
-</script>
+<script setup></script>
 
 <template>
   <div>
-    <HeaderTemplate />
+    <!-- <HeaderTemplate /> -->
+    <a class="logo" href="/vue-todo.v2/">#TaskList</a>
     <main>
       <router-view />
     </main>

@@ -2,9 +2,10 @@
     position: absolute;
 
     width: 30%;
-    height: 100%;
+    height: 45vh;
 
     left: 10px;
+    top: 25%;
 
     display: flex;
     flex-direction: column;
@@ -156,6 +157,10 @@
     }
 
     button[type="submit"] {
+        position: absolute;
+        bottom: 3%;
+
+        width: 95%;
         cursor: pointer;
 
         font-family: "Rubik", sans-serif;
@@ -178,5 +183,22 @@
             background: var(--color-text);
             color: var(--color-background-mute);
         }
+    }
+}
+
+
+@media (max-width: 992px) {
+    .form {
+        width: 60%;
+        height: 60vh;
+    }
+}
+
+@media (max-width: 768px) {
+    .form {
+        width: 60%;
+        height: 100% !important;
+
+        top: 15%;
     }
 }

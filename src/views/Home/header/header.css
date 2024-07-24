@@ -6,24 +6,6 @@ header {
     align-items: center;
     padding: 10px 0;
 
-    .logo {
-        position: absolute;
-
-        left: 3%;
-        font-size: 20px;
-        font-weight: 500;
-
-        color: var(--color-text);
-        text-decoration: none;
-
-        transition: 0.3s ease-in-out;
-
-        &:hover {
-            scale: 1.1;
-        }
-
-    }
-
     .profile {
         position: absolute;
 
@@ -127,14 +109,38 @@ header {
 
         border-right: 1px solid var(--color-border);
 
-        h2 {
-            height: 30px;
-
+        .title {
             display: flex;
             align-items: center;
-            gap: 5px;
 
-            font-size: 20px;
+            justify-content: space-between;
+       
+            .user {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+
+
+                font-size: 20px;
+            }
+
+            .logout {
+                cursor: pointer;
+                
+                border: none;
+                background: transparent;
+                outline: none;
+
+                color: var(--color-text);
+
+                transition: 0.3s ease-in-out;
+
+                &:hover {
+                    transform: translateY(-5px);
+                }
+            
+            }
+           
         }
 
         .form {

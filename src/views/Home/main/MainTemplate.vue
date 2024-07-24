@@ -6,14 +6,15 @@ import {Plus, SquareCheckBig, TriangleAlert, X} from 'lucide-vue-next';
 import MainForm from '@/views/Home/main/components/MainForm.vue';
 import {notification} from '@/lib/toastService.js';
 import {useUserStore} from '@/store/user.js';
-import TaskButtons from '@/shared/TaskButtons.vue';
-import TaskFormGroup from '@/shared/TaskFormGroup.vue';
+import {TaskButtons, TaskFormGroup, TaskTitle} from '@/shared/tasks/tasks.js';
 
 const drag = ref(false);
 const userStore = useUserStore();
 const _tasks = ref([]);
 const isEdit = ref({});
 const addData = ref(false);
+
+const error = ref(false);
 
 onMounted(() => {
   userStore.loadUser();
@@ -29,21 +30,24 @@ watch(
   },
   {immediate: true},
 );
-const closeModal = () => {
-  addData.value = false;
+
+const openModalAdd = () => {
+  if (userStore.token.length === 0) {
+    error.value = true;
+    notification('Please login first', 'warning', 3000);
+
+    const timeout = setTimeout(() => {
+      error.value = false;
+    }, 500);
+
+    return () => clearTimeout(timeout);
+  }
+
+  addData.value = true;
 };
 
-const getPriorityIcon = priority => {
-  switch (priority) {
-    case 'A':
-      return '🔥 ';
-    case 'B':
-      return '⭐ ';
-    case 'C':
-      return '❄️ ';
-    default:
-      return '';
-  }
+const closeModal = () => {
+  addData.value = false;
 };
 
 const sortByPriority = (a, b) => {
@@ -141,11 +145,11 @@ const isAnyTaskInEditMode = computed(() =>
     <div class="list">
       <div class="column new">
         <div class="header">
-          <p class="title">
+          <p>
             <X :size="16" color="red" />
             #TODO
           </p>
-          <button type="button" @click="addData = !addData">
+          <button type="button" @click="openModalAdd" :class="{shake: error}">
             <Plus :size="18" />
           </button>
         </div>
@@ -162,13 +166,7 @@ const isAnyTaskInEditMode = computed(() =>
           >
             <template #item="{element}">
               <div :key="element.id" :data-id="element.id" class="item">
-                <h3 class="title">
-                  {{ getPriorityIcon(element.priority) + element.taskTitle }}
-                </h3>
-                <p v-if="element.date">
-                  #Done at: [
-                  <span style="font-weight: 600">{{ element.date }} </span> ]
-                </p>
+                <TaskTitle :element="element" />
 
                 <TaskFormGroup
                   :isEdit="isEdit[element.id]"
@@ -190,7 +188,7 @@ const isAnyTaskInEditMode = computed(() =>
 
       <div class="column inProgress">
         <div class="header">
-          <p class="title">
+          <p>
             <TriangleAlert :size="16" color="yellow" />
             #In Progress
           </p>
@@ -207,13 +205,7 @@ const isAnyTaskInEditMode = computed(() =>
           >
             <template #item="{element}">
               <div :key="element.id" :data-id="element.id" class="item">
-                <h3 class="title">
-                  {{ getPriorityIcon(element.priority) + element.taskTitle }}
-                </h3>
-                <p v-if="element.date">
-                  #Done at: [
-                  <span style="font-weight: 600">{{ element.date }} </span> ]
-                </p>
+                <TaskTitle :element="element" />
 
                 <TaskFormGroup
                   :isEdit="isEdit[element.id]"
@@ -235,7 +227,7 @@ const isAnyTaskInEditMode = computed(() =>
 
       <div class="column done">
         <div class="header">
-          <p class="title">
+          <p>
             <SquareCheckBig :size="16" color="green" />
             #Done
           </p>
@@ -253,15 +245,7 @@ const isAnyTaskInEditMode = computed(() =>
           >
             <template #item="{element}">
               <div :key="element.id" :data-id="element.id" class="item">
-                <h3
-                  :class="['title', {'small-title': element.status === 'done'}]"
-                >
-                  {{ getPriorityIcon(element.priority) + element.taskTitle }}
-                </h3>
-                <p v-if="element.date">
-                  #Done at: [
-                  <span style="font-weight: 600">{{ element.date }} </span> ]
-                </p>
+                <TaskTitle :element="element" />
 
                 <TaskButtons
                   :hiddenSave="true"

@@ -4,12 +4,12 @@ export const isDark = () => {
   return window?.matchMedia?.('(prefers-color-scheme:dark)')?.matches ?? false;
 };
 
-export const notification = (message, type) => {
+export const notification = (message, type, time) => {
   const theme = String(isDark());
   toast(message, {
     theme,
     type,
-    autoClose: 1500,
+    autoClose: time,
     dangerouslyHTMLString: true,
     position: 'bottom-right',
   });

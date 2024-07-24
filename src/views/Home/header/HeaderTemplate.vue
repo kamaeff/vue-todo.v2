@@ -1,9 +1,11 @@
 <script setup>
 import {computed, onMounted, onUnmounted, ref, watch} from 'vue';
+import {useRouter} from 'vue-router';
 import {
   ChevronsRight,
   CircleUserRound,
   FilePenLine,
+  LogOut,
   SquareCheckBig,
   Tally5,
   TriangleAlert,
@@ -17,6 +19,7 @@ const username = ref('');
 const name = ref('');
 
 const userStore = useUserStore();
+const router = useRouter();
 
 const isEdit = ref(false);
 const saveUser = () => {
@@ -28,7 +31,14 @@ const saveUser = () => {
 };
 
 const openModal = () => {
-  isModalOpen.value = true;
+  userStore.token.length > 0
+    ? (isModalOpen.value = true)
+    : router.push('/vue-todo.v2/auth');
+};
+
+const logout = () => {
+  userStore.logout();
+  router.push('/vue-todo.v2/auth');
 };
 
 const closeModal = () => {
@@ -49,6 +59,7 @@ watch(isModalOpen, newVal => {
 
 onMounted(() => {
   userStore.loadUser();
+
   username.value = userStore.username;
   name.value = userStore.name;
 });
@@ -71,16 +82,14 @@ const todoTasks = computed(
 
 <template>
   <header>
-    <a class="logo" href="/">#TaskList</a>
-
     <div class="profile">
       <button
-        :title="userStore.username !== '' ? 'Profile' : 'Sign in'"
+        :title="userStore.value !== '' ? 'Profile' : 'Sign in'"
         type="button"
         @click="openModal"
       >
         <CircleUserRound :size="24" :strokeWidth="1.5" />
-        {{ userStore.username !== '' ? userStore.username : 'Sign in' }}
+        {{ userStore.token !== '' ? userStore.username : 'Sign in' }}
       </button>
     </div>
   </header>
@@ -94,10 +103,20 @@ const todoTasks = computed(
       </button>
 
       <div class="content">
-        <h2>
-          <CircleUserRound :size="26" :strokeWidth="1" />
-          {{ userStore.username !== '' ? userStore.username : 'User' }}
-        </h2>
+        <div class="title">
+          <div class="user">
+            <CircleUserRound :size="26" :strokeWidth="1" />
+            <span>
+              {{
+                userStore.username !== '' ? userStore.username : 'User'
+              }}</span
+            >
+          </div>
+
+          <button class="logout" @click="logout">
+            <LogOut :size="20" />
+          </button>
+        </div>
 
         <form class="form" @submit.prevent="saveUser">
           <input

@@ -1,8 +1,9 @@
 <script setup>
 import {onMounted, ref} from 'vue';
-import {Loader} from 'lucide-vue-next';
+import Loader from '@/shared/Loader.vue';
 
 import MainTemplate from '@/views/Home/main/MainTemplate.vue';
+import HeaderTemplate from '@/views/Home/header/HeaderTemplate.vue';
 
 const loader = ref(true);
 
@@ -18,17 +19,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="loader" class="loader">
-    <div class="container">
-      <Loader :size="30" class="item" />
+  <Loader :isLoading="loader" :size="30" :needSub="true" />
 
-      <div class="text">
-        <p>#TaskList</p>
-
-        <p class="sub">Simple and Fast</p>
-      </div>
-    </div>
-  </div>
+  <HeaderTemplate />
 
   <Transition name="bounce">
     <div v-show="!loader">

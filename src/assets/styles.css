@@ -1,5 +1,5 @@
-@import "./base.css";
-@import "./fonts.css";
+@import "./_variables.css";
+@import "./_fonts.css";
 
 *,
 *::before,
@@ -37,6 +37,11 @@ body {
     -webkit-tap-highlight-color: transparent;
 }
 
+
+button, input, a {
+    font-family: 'Rubik', sans-serif;
+}
+
 .overlay {
     z-index: 999;
     position: fixed;
@@ -47,43 +52,48 @@ body {
     opacity: 0.2;
 }
 
-.loader {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.logo {
+    position: absolute;
 
-    height: 80vh;
+    top: 2.5%;
+    left: 3%;
+    font-size: 20px;
+    font-weight: 500;
 
-    .container {
-        display: flex;
-        align-items: center;
+    color: var(--color-text);
+    text-decoration: none;
 
-        gap: 5px;
+    transition: 0.3s ease-in-out;
 
-        .item {
-            animation: rotate 2s linear infinite;
-        }
-
-        .text {
-            p {
-                font-size: 24px;
-            }
-
-            .sub {
-                display: block;
-                font-size: 14px;
-                font-weight: 300;
-            }
-        }
+    &:hover {
+        scale: 1.1;
     }
+
 }
 
-@keyframes rotate {
-    from {
-        transform: rotate(0deg);
-    }
+.shake {
+    color: var(--color-warning);
+    animation: shake 0.5s;
+}
 
-    to {
-        transform: rotate(360deg);
+.disabled {
+    opacity: 0.3;
+}
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-5px);
+    }
+    50% {
+        transform: translateX(5px);
+    }
+    75% {
+        transform: translateX(-5px);
+    }
+    100% {
+        transform: translateX(0);
     }
 }
