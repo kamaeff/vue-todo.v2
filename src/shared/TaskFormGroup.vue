@@ -46,7 +46,7 @@ watch(textarea, (newVal, oldVal) => {
   position: relative;
   text-align: left;
 
-  margin-top: 10px;
+  margin-top: 5px;
 
   label {
     display: none;
@@ -61,6 +61,7 @@ watch(textarea, (newVal, oldVal) => {
 
     background: var(--color-background-mute);
     font-weight: 500;
+    font-size: 12px;
   }
 
   .edit-input {
@@ -72,23 +73,22 @@ watch(textarea, (newVal, oldVal) => {
 
     overflow-y: auto;
 
-    padding: 10px;
-
     font-family: 'Rubik', sans-serif;
-    font-size: 14px;
-    font-weight: 300;
+    font-size: 12px;
+    font-weight: 500;
 
-    color: var(--color-text);
+    color: var(--color-task);
     background: transparent;
-
     outline: none;
-
-    border-radius: 10px;
-    border: 1px solid var(--color-border);
+    border: none;
   }
 
   .isEdit {
-    border: 2px solid var(--color-text);
+    border: 1px solid var(--color-text);
+    border-radius: 8px;
+
+    padding: 10px;
+    font-size: 10px;
   }
 
   .show-label {

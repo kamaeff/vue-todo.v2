@@ -120,6 +120,10 @@ nextTick(() => {
     textarea.addEventListener('input', autoResizeTextarea);
   });
 });
+
+const isAnyTaskInEditMode = computed(() =>
+  Object.values(isEdit.value).includes(true),
+);
 </script>
 
 <template>
@@ -149,6 +153,7 @@ nextTick(() => {
         <div class="content">
           <draggable
             v-model="columns.new"
+            :disabled="isAnyTaskInEditMode"
             class="drag"
             group="tasks"
             item-key="id"
@@ -190,6 +195,7 @@ nextTick(() => {
         <div class="content">
           <draggable
             v-model="columns.inProgress"
+            :disabled="isAnyTaskInEditMode"
             class="drag"
             group="tasks"
             item-key="id"
@@ -232,6 +238,7 @@ nextTick(() => {
         <div class="content">
           <draggable
             v-model="columns.done"
+            :disabled="isAnyTaskInEditMode"
             class="drag"
             group="tasks"
             item-key="id"
@@ -241,7 +248,6 @@ nextTick(() => {
             <template #item="{element}">
               <div
                 :key="element.id"
-                :class="{}"
                 :data-id="element.id"
                 class="item task-done"
               >
