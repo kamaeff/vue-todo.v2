@@ -1,19 +1,13 @@
 <script setup>
 import draggable from 'vuedraggable';
-import {computed, nextTick, onMounted, ref} from 'vue';
-import {
-  FilePenLine,
-  Plus,
-  SaveAll,
-  SquareCheckBig,
-  Trash2,
-  TriangleAlert,
-  X,
-} from 'lucide-vue-next';
+import {computed, nextTick, onMounted, ref, watch} from 'vue';
+import {Plus, SquareCheckBig, TriangleAlert, X} from 'lucide-vue-next';
 
 import MainForm from '@/views/Home/main/components/MainForm.vue';
 import {notification} from '@/lib/toastService.js';
 import {useUserStore} from '@/store/user.js';
+import TaskButtons from '@/shared/TaskButtons.vue';
+import TaskFormGroup from '@/shared/TaskFormGroup.vue';
 
 const drag = ref(false);
 const userStore = useUserStore();
@@ -23,14 +17,18 @@ const addData = ref(false);
 
 onMounted(() => {
   userStore.loadUser();
-  setTimeout(() => {
-    _tasks.value = userStore.tasks.map(task => ({
+});
+
+watch(
+  () => userStore.tasks,
+  tasks => {
+    _tasks.value = tasks.map(task => ({
       ...task,
       status: task.status || 'new',
     }));
-  }, 1000);
-});
-
+  },
+  {immediate: true},
+);
 const closeModal = () => {
   addData.value = false;
 };
@@ -164,50 +162,18 @@ nextTick(() => {
                 </h3>
                 <p>#Done at: [ {{ element.date }} ]</p>
 
-                <div class="form-group">
-                  <label
-                    :class="{'show-label': isEdit[element.id]}"
-                    for="subtext"
-                  >
-                    Edit
-                  </label>
+                <TaskFormGroup
+                  :isEdit="isEdit[element.id]"
+                  :subtext="element.subtext"
+                  @update:subtext="element.subtext = $event"
+                />
 
-                  <textarea
-                    v-model="element.subtext"
-                    :class="['edit-input', {isEdit: isEdit[element.id]}]"
-                    :readonly="!isEdit[element.id]"
-                    name="subtext"
-                    @input="autoResizeTextarea"
-                  ></textarea>
-                </div>
-
-                <div class="btns">
-                  <button
-                    :class="{hide: isEdit[element.id]}"
-                    title="#edit"
-                    type="button"
-                    @click="editTask(element.id)"
-                  >
-                    <FilePenLine :size="20" />
-                  </button>
-
-                  <button
-                    :class="{hide: !isEdit[element.id]}"
-                    title="#save"
-                    type="button"
-                    @click="saveTask(element.id, element.subtext)"
-                  >
-                    <SaveAll :size="20" />
-                  </button>
-
-                  <button
-                    title="#delete"
-                    type="button"
-                    @click="deleteTask(element.id)"
-                  >
-                    <Trash2 :size="20" />
-                  </button>
-                </div>
+                <TaskButtons
+                  :isEdit="isEdit[element.id]"
+                  @edit-task="editTask(element.id)"
+                  @save-task="saveTask(element.id, element.subtext)"
+                  @delete-task="deleteTask(element.id)"
+                />
               </div>
             </template>
           </draggable>
@@ -237,50 +203,18 @@ nextTick(() => {
                 </h3>
                 <p>#Done at: [ {{ element.date }} ]</p>
 
-                <div class="form-group">
-                  <label
-                    :class="{'show-label': isEdit[element.id]}"
-                    for="subtext"
-                  >
-                    Edit
-                  </label>
+                <TaskFormGroup
+                  :isEdit="isEdit[element.id]"
+                  :subtext="element.subtext"
+                  @update:subtext="element.subtext = $event"
+                />
 
-                  <textarea
-                    v-model="element.subtext"
-                    :class="['edit-input', {isEdit: isEdit[element.id]}]"
-                    :readonly="!isEdit[element.id]"
-                    name="subtext"
-                    @input="autoResizeTextarea"
-                  ></textarea>
-                </div>
-
-                <div class="btns">
-                  <button
-                    :class="{hide: isEdit[element.id]}"
-                    title="#edit"
-                    type="button"
-                    @click="editTask(element.id)"
-                  >
-                    <FilePenLine :size="20" />
-                  </button>
-
-                  <button
-                    :class="{hide: !isEdit[element.id]}"
-                    title="#save"
-                    type="button"
-                    @click="saveTask(element.id, element.subtext)"
-                  >
-                    <SaveAll :size="20" />
-                  </button>
-
-                  <button
-                    title="#delete"
-                    type="button"
-                    @click="deleteTask(element.id)"
-                  >
-                    <Trash2 :size="20" />
-                  </button>
-                </div>
+                <TaskButtons
+                  :isEdit="isEdit[element.id]"
+                  @edit-task="editTask(element.id)"
+                  @save-task="saveTask(element.id, element.subtext)"
+                  @delete-task="deleteTask(element.id)"
+                />
               </div>
             </template>
           </draggable>
@@ -320,52 +254,13 @@ nextTick(() => {
                   #Done at: [ {{ element.date }} ]
                 </p>
 
-                <div class="form-group">
-                  <label
-                    :class="{'show-label': isEdit[element.id]}"
-                    for="subtext"
-                  >
-                    Edit
-                  </label>
-
-                  <textarea
-                    v-model="element.subtext"
-                    :class="['edit-input', {isEdit: isEdit[element.id]}]"
-                    :hidden="element.status === 'done'"
-                    :readonly="!isEdit[element.id]"
-                    name="subtext"
-                    @input="autoResizeTextarea"
-                  ></textarea>
-                </div>
-
-                <div class="btns">
-                  <button
-                    :class="{hide: isEdit[element.id]}"
-                    :hidden="element.status === 'done'"
-                    title="#edit"
-                    type="button"
-                    @click="editTask(element.id)"
-                  >
-                    <FilePenLine :size="20" />
-                  </button>
-
-                  <button
-                    :class="{hide: !isEdit[element.id]}"
-                    title="#save"
-                    type="button"
-                    @click="saveTask(element.id, element.subtext)"
-                  >
-                    <SaveAll :size="20" />
-                  </button>
-
-                  <button
-                    title="#delete"
-                    type="button"
-                    @click="deleteTask(element.id)"
-                  >
-                    <Trash2 :size="20" />
-                  </button>
-                </div>
+                <TaskButtons
+                  :hiddenSave="true"
+                  :isEdit="isEdit[element.id]"
+                  @edit-task="editTask(element.id)"
+                  @save-task="saveTask(element.id, element.subtext)"
+                  @delete-task="deleteTask(element.id)"
+                />
               </div>
             </template>
           </draggable>

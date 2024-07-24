@@ -10,8 +10,8 @@ header {
         position: absolute;
 
         left: 3%;
-
         font-size: 20px;
+        font-weight: 500;
 
     }
 
@@ -54,7 +54,7 @@ header {
 
     width: 30%;
     height: 50%;
-    
+
 
     display: flex;
     align-items: center;
@@ -246,7 +246,7 @@ header {
 
 @keyframes right-anim {
     0% {
-        transform: translateX(50%);
+        transform: translateX(100%);
     }
     100% {
         transform: translateX(0);
