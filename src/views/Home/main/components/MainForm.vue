@@ -48,7 +48,10 @@ const addTask = () => {
     status: 'new',
   };
 
-  const isAllFieldsFilled = Object.values(data).every(
+  const dataToCheck = {...data};
+  delete dataToCheck.date;
+
+  const isAllFieldsFilled = Object.values(dataToCheck).every(
     value => value.trim() !== '',
   );
 

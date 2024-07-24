@@ -1,49 +1,40 @@
 .main {
     position: relative;
     width: 100%;
-    height: 80vh;
 
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
+
+    margin-top: 50px;
 
     h2 {
         font-size: 26px;
     }
 
-
     .list {
         width: 70%;
-        height: 60%;
 
         display: flex;
 
-        gap: 20px;
-
-        border-radius: 8px;
-
         .new,
         .inProgress {
-            border-right: 2px solid var(--color-border);
+            /*border-right: 1px solid var(--color-border);*/
         }
 
         .new,
         .inProgress,
         .done {
-            width: 90%;
+            width: 100%;
 
             display: flex;
             flex-direction: column;
 
             gap: 10px;
-            overflow-y: auto;
-            max-height: 80vh;
-
 
             .header {
                 width: 90%;
-                background-color: var(--color-background);
+
                 z-index: 1;
 
                 display: flex;
@@ -51,41 +42,55 @@
                 justify-content: space-between;
                 gap: 10px;
 
+                border-bottom: 1px solid var(--color-border);
+
                 .title {
                     display: flex;
                     align-items: center;
 
                     gap: 5px;
+                    padding: 3px 7px;
+                    margin-bottom: 5px;
 
-                    font-size: 16px;
+                    font-size: 14px;
                     font-weight: bold;
+
                     color: var(--color-text);
+                    background-color: var(--color-background-mute);
+
+                    border: 1px solid var(--color-border);
+                    border-radius: 8px;
                 }
 
                 button {
                     cursor: pointer;
-                    padding: 0;
-
+                    padding-left: 5px;
+                    
                     border: none;
+                    background: transparent;
                     outline: none;
-                    background-color: transparent;
 
                     color: var(--color-text);
 
-                    transition: 0.3s ease-in-out;
+
+                    transition: 0.2s ease-in-out;
 
                     &:hover {
-                        scale: 1.1;
+                        scale: 1.2;
                     }
                 }
             }
 
             .content {
                 height: 100%;
-                overflow-y: auto;
 
                 .drag {
                     height: 100%;
+
+                    display: flex;
+                    flex-direction: column;
+                    gap: 10px;
+
                 }
 
                 .item {
@@ -102,7 +107,7 @@
                     border: 1px solid transparent;
                     border-radius: 10px;
                     background-color: var(--color-background);
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
                     transition: all 0.2s;
 
                     .title {
@@ -141,11 +146,6 @@
     }
 }
 
-
-.task-done {
-    text-decoration: line-through;
-}
-
 .small-title {
     font-size: 14px !important;
 }
@@ -171,9 +171,6 @@
 }
 
 .shake {
-    /* background-color: rgba(236, 90, 90, 0.418) !important;
-    color: var(--color-text) !important; */
-
     animation: shake 0.5s;
 }
 
@@ -195,69 +192,101 @@
 }
 
 
-/*TODO: Сделать нормальный адаптив*/
+@media (max-width: 1200px) {
+    .main {
+        width: 100%;
 
-/*@media (max-width: 1200px) {*/
-/*    .main {*/
-/*        width: 100%;*/
-/*        flex-direction: column;*/
+        .list {
+            width: 90%;
 
-/*        .form {*/
-/*            width: 30%;*/
-/*        }*/
+            margin-top: 20px;
 
-/*        .list {*/
-/*            width: 100%;*/
+            .new {
+                margin: 0;
+            }
 
-/*            top: 25%;*/
+            .new,
+            .inProgress,
+            .done {
 
-/*            justify-content: center;*/
-/*            flex-direction: column;*/
-/*            align-items: center;*/
+                .title {
+                    justify-content: center;
+                    font-size: 16px;
+                }
 
-/*            margin-top: 20px;*/
-
-/*            .new {*/
-/*                margin: 0;*/
-/*            }*/
-
-/*            .new,*/
-/*            .inProgress,*/
-/*            .done {*/
-
-/*                flex-direction: row;*/
-/*                border: none;*/
-/*                padding: 0;*/
+            }
 
 
-/*                .title {*/
-/*                    justify-content: center;*/
-/*                    font-size: 16px;*/
-/*                }*/
+        }
+    }
+}
 
-/*            }*/
+@media (max-width: 992px) {
+    .main {
+        .list {
+            width: 100%;
+            margin: 20px 0;
+
+            flex-direction: column;
+            gap: 20px;
+
+            .column {
+                width: 50%;
+
+                display: flex;
+                align-items: center;
+
+                margin: 0 auto;
+
+                .header {
+                    width: 100%;
+
+                    background-color: var(--color-background-mute);
+                    padding: 5px;
+
+                    border-radius: 10px;
+                }
+
+                .content {
+                    width: 100%;
+
+                    .drag {
+                        .item {
+                            width: 100%;
+                            margin: 0 auto;
+                        }
+                    }
+
+                }
 
 
-/*        }*/
-/*    }*/
-/*}*/
+            }
 
-/*@media (max-width: 992px) {*/
-/*    .main {*/
-/*        .form {*/
-/*            width: 90%;*/
 
-/*            .container {*/
-/*                flex-direction: column;*/
+        }
+    }
+}
 
-/*                select,*/
-/*                .input {*/
-/*                    width: 100%;*/
-/*                }*/
-/*            }*/
-/*        }*/
-/*    }*/
-/*}*/
+@media (max-width: 768px) {
+    .main {
+        align-items: start;
+
+        margin-top: 0;
+
+        .form {
+            width: 95%;
+            height: 50%;
+
+        }
+
+        .list {
+            .column {
+                width: 90%;
+            }
+
+        }
+    }
+}
 
 @keyframes shake {
     0% {

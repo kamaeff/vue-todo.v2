@@ -30,7 +30,7 @@ const deleteTask = () => {
         type="button"
         @click="editTask"
       >
-        <FilePenLine :size="20" />
+        <FilePenLine :size="16" />
       </button>
 
       <button
@@ -39,12 +39,12 @@ const deleteTask = () => {
         type="button"
         @click="saveTask"
       >
-        <SaveAll :size="20" />
+        <SaveAll :size="16" />
       </button>
     </div>
 
     <button title="#delete" type="button" @click="deleteTask">
-      <Trash2 :size="20" />
+      <Trash2 :size="16" />
     </button>
   </div>
 </template>

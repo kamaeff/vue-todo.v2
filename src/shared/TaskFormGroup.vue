@@ -88,7 +88,7 @@ watch(textarea, (newVal, oldVal) => {
     border-radius: 8px;
 
     padding: 10px;
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .show-label {

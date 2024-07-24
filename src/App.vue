@@ -1,6 +1,5 @@
 <script setup>
 import HeaderTemplate from '@/views/Home/header/HeaderTemplate.vue';
-import FooterTemplate from '@/views/Home/footer/FooterTemplate.vue';
 </script>
 
 <template>
@@ -9,6 +8,6 @@ import FooterTemplate from '@/views/Home/footer/FooterTemplate.vue';
     <main>
       <router-view />
     </main>
-    <FooterTemplate />
+    <!--<FooterTemplate />-->
   </div>
 </template>

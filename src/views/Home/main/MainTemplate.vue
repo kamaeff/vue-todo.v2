@@ -36,11 +36,11 @@ const closeModal = () => {
 const getPriorityIcon = priority => {
   switch (priority) {
     case 'A':
-      return '🔥';
+      return '🔥 ';
     case 'B':
-      return '⭐';
+      return '⭐ ';
     case 'C':
-      return '❄️';
+      return '❄️ ';
     default:
       return '';
   }
@@ -142,7 +142,7 @@ const isAnyTaskInEditMode = computed(() =>
       <div class="column new">
         <div class="header">
           <p class="title">
-            <X :size="18" color="red" />
+            <X :size="16" color="red" />
             #TODO
           </p>
           <button type="button" @click="addData = !addData">
@@ -165,7 +165,10 @@ const isAnyTaskInEditMode = computed(() =>
                 <h3 class="title">
                   {{ getPriorityIcon(element.priority) + element.taskTitle }}
                 </h3>
-                <p>#Done at: [ {{ element.date }} ]</p>
+                <p v-if="element.date">
+                  #Done at: [
+                  <span style="font-weight: 600">{{ element.date }} </span> ]
+                </p>
 
                 <TaskFormGroup
                   :isEdit="isEdit[element.id]"
@@ -188,7 +191,7 @@ const isAnyTaskInEditMode = computed(() =>
       <div class="column inProgress">
         <div class="header">
           <p class="title">
-            <TriangleAlert :size="20" color="yellow" />
+            <TriangleAlert :size="16" color="yellow" />
             #In Progress
           </p>
         </div>
@@ -207,7 +210,10 @@ const isAnyTaskInEditMode = computed(() =>
                 <h3 class="title">
                   {{ getPriorityIcon(element.priority) + element.taskTitle }}
                 </h3>
-                <p>#Done at: [ {{ element.date }} ]</p>
+                <p v-if="element.date">
+                  #Done at: [
+                  <span style="font-weight: 600">{{ element.date }} </span> ]
+                </p>
 
                 <TaskFormGroup
                   :isEdit="isEdit[element.id]"
@@ -230,7 +236,7 @@ const isAnyTaskInEditMode = computed(() =>
       <div class="column done">
         <div class="header">
           <p class="title">
-            <SquareCheckBig :size="20" color="green" />
+            <SquareCheckBig :size="16" color="green" />
             #Done
           </p>
         </div>
@@ -246,18 +252,15 @@ const isAnyTaskInEditMode = computed(() =>
             @start="drag = true"
           >
             <template #item="{element}">
-              <div
-                :key="element.id"
-                :data-id="element.id"
-                class="item task-done"
-              >
+              <div :key="element.id" :data-id="element.id" class="item">
                 <h3
                   :class="['title', {'small-title': element.status === 'done'}]"
                 >
                   {{ getPriorityIcon(element.priority) + element.taskTitle }}
                 </h3>
-                <p :hidden="element.status === 'done'">
-                  #Done at: [ {{ element.date }} ]
+                <p v-if="element.date">
+                  #Done at: [
+                  <span style="font-weight: 600">{{ element.date }} </span> ]
                 </p>
 
                 <TaskButtons

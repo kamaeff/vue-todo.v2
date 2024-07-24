@@ -71,7 +71,7 @@ const todoTasks = computed(
 
 <template>
   <header>
-    <div class="logo">#TaskList</div>
+    <a class="logo" href="/">#TaskList</a>
 
     <div class="profile">
       <button

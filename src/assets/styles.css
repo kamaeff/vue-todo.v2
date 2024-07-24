@@ -9,9 +9,15 @@
     font-weight: normal;
 }
 
+html {
+    scrollbar-color: #000 #c5c5c5;
+    scrollbar-width: thin;
+}
+
+
 body {
     min-height: 100vh;
-
+    
     color: var(--color-text);
     background: var(--color-background);
 
