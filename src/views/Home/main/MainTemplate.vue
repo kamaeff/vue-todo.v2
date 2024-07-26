@@ -65,26 +65,13 @@ const columns = computed(() => ({
     .sort(sortByPriority),
 }));
 
-const updateTaskStatus = (columnName, evt) => {
-  if (evt.added) {
-    const movedItemId = evt.added.element.id;
-    const movedItem = _tasks.value.find(task => task.id === movedItemId);
-    if (movedItem) {
-      movedItem.status = columnName;
-      _tasks.value = [..._tasks.value];
-
-      userStore.updateTask(movedItemId, movedItem);
-
-      if (movedItem.status === 'done')
-        notification('Gratz! Task completed', 'success', 1500);
-    }
-  }
-};
-
 const addTask = newTask => {
   _tasks.value.push(newTask);
-  userStore.addTask(newTask);
+  const add = userStore.addTask(newTask);
 
+  if (!add) notification('Failed to add task', 'warning', 1500);
+
+  notification('Task Added', 'success', 1500);
   addData.value = false;
 };
 
@@ -96,6 +83,29 @@ const deleteTask = async id => {
     notification('Task deleted successfully', 'success', 1500);
   } else {
     notification('Failed to delete task', 'warning', 1500);
+  }
+};
+
+const updateTaskStatus = (columnName, evt) => {
+  if (evt.added) {
+    const movedItemId = evt.added.element.id;
+    const movedItem = _tasks.value.find(task => task.id === movedItemId);
+    if (movedItem) {
+      movedItem.status = columnName;
+      _tasks.value = [..._tasks.value];
+
+      const update = userStore.updateTask(movedItem);
+
+      if (!update) notification('Failed to update task', 'warning', 1500);
+
+      if (movedItem.status === 'new')
+        notification('Task added to new column', 'success', 1500);
+      if (movedItem.status === 'inProgress')
+        notification('Task added to inProgress column', 'success', 1500);
+
+      if (movedItem.status === 'done')
+        notification('Gratz! Task completed', 'success', 1500);
+    }
   }
 };
 

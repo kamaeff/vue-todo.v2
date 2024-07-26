@@ -11,6 +11,13 @@ export const useUserStore = defineStore('user', {
     tasks: [],
   }),
   actions: {
+    resetState() {
+      this.id = '';
+      this.token = '';
+      this.username = '';
+      this.name = '';
+      this.tasks = [];
+    },
     async register(data) {
       const {id, usernameReq, name, password} = data;
 
@@ -48,6 +55,7 @@ export const useUserStore = defineStore('user', {
         const {access_token, user} = response.data;
 
         if (access_token && user) {
+          this.resetState();
           const {id, name, tasks} = user;
           this.token = access_token;
           this.id = id;
@@ -60,9 +68,7 @@ export const useUserStore = defineStore('user', {
 
         return false;
       } catch (error) {
-        // console.error('Login error:', error);
         return error.response?.status || '400';
-        // return '400';
       }
     },
     async loadUser() {
@@ -97,8 +103,7 @@ export const useUserStore = defineStore('user', {
           this.tasks = response.data.tasks;
         }
       } catch (error) {
-        // console.error('Failed to fetch tasks:', error);
-        false;
+        console.error('Failed to fetch tasks:', error);
       }
     },
     async saveUser() {
@@ -114,42 +119,17 @@ export const useUserStore = defineStore('user', {
           import.meta.env.VITE_SECRET_KEY,
         ).toString();
         sessionStorage.setItem('user', encryptedData);
-
-        try {
-          const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/user/update`,
-            {
-              id: this.id,
-              username: this.username,
-              name: this.name,
-              tasks: this.tasks,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-              },
-            },
-          );
-
-          if (response.status === 200) {
-            return true;
-          }
-        } catch (e) {
-          console.error('Error saving user data:', e);
-        }
       }
       return false;
     },
     async addTask(task) {
-      this.tasks.push(task);
+      console.log(task);
       try {
         const response = await axios.post(
-          `${import.meta.env.VITE_API_URL}/user/update`,
+          `${import.meta.env.VITE_API_URL}/user/${this.id}/add`,
           {
             id: this.id,
-            username: this.username,
-            name: this.name,
-            tasks: this.tasks,
+            task,
           },
           {
             headers: {
@@ -164,41 +144,29 @@ export const useUserStore = defineStore('user', {
         }
       } catch (e) {
         console.error('Error adding task:', e);
+        return false;
       }
-      return false;
     },
-    async updateTask(id, updatedTask) {
-      const index = this.tasks.findIndex(task => task.id === id);
-      if (index !== -1) {
-        this.tasks[index] = updatedTask;
-
-        try {
-          const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/user/update`,
-            {
-              id: this.id,
-              username: this.username,
-              name: this.name,
-              tasks: this.tasks,
+    async updateTask(updatedTask) {
+      try {
+        const response = await axios.put(
+          `${import.meta.env.VITE_API_URL}/user/update/${updatedTask.id}`,
+          updatedTask,
+          {
+            headers: {
+              Authorization: `Bearer ${this.token}`,
             },
-            {
-              headers: {
-                Authorization: `Bearer ${this.token}`,
-              },
-            },
-          );
+          },
+        );
 
-          if (response.status === 200 || response.status === 201) {
-            this.saveUser();
-            return true;
-          }
-        } catch (e) {
-          console.error('Error updating task:', e);
+        if (response.status === 200) {
+          console.log('Task updated successfully:', response.data);
+          return true;
         }
-      } else {
-        console.error('Task not found in local state');
+      } catch (e) {
+        console.error('Error updating task:', e);
+        return false;
       }
-      return false;
     },
     async removeTask(taskId) {
       try {

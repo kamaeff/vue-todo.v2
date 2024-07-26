@@ -69,8 +69,6 @@ const addTask = () => {
 
   emit('add-task', data);
 
-  notification('Task Added', 'success', 1500);
-
   taskTitle.value = '';
   subtext.value = '';
   priority.value = '';
