@@ -22,7 +22,7 @@ const localElement = ref(props.element);
 </script>
 
 <template>
-  <div v-if="localElement">
+  <div v-if="localElement" :class="{done: localElement.status === 'done'}">
     <h3 class="title">
       {{ getPriorityIcon(localElement.priority) + localElement.title }}
     </h3>
@@ -47,5 +47,9 @@ const localElement = ref(props.element);
 p {
   font-weight: 300;
   font-size: 12px;
+}
+
+.done {
+  text-decoration: line-through;
 }
 </style>

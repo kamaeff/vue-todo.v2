@@ -33,7 +33,7 @@ const vitePWA = VitePWA({
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: '/vue-todo.v2/',
+  // base: '/vue-todo.v2/',
   plugins: [vue(), vueDevTools(), vitePWA],
   server: {
     port: 5123,

@@ -1,12 +1,13 @@
 <script setup>
 import {ServerCrash} from 'lucide-vue-next';
+import {RouterLink} from 'vue-router';
 </script>
 
 <template>
   <div class="errPage">
     <p><ServerCrash :size="30" />404 Not Found :(</p>
     <p class="sub">
-      Please return to the <a href="/vue-todo.v2/">main page</a>
+      Please return to the <RouterLink to="/">main page</RouterLink>
     </p>
   </div>
 </template>

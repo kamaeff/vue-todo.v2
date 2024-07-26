@@ -1,6 +1,7 @@
 <script setup>
 import {onMounted, ref} from 'vue';
 import {User, KeySquare} from 'lucide-vue-next';
+import {RouterLink} from 'vue-router';
 import Loader from '@/shared/Loader.vue';
 import {notification} from '@/lib/toastService';
 import {useRouter} from 'vue-router';
@@ -63,15 +64,18 @@ const logIn = async () => {
   }
 
   const res = await userStore.login(username.value, password.value);
+  console.log(res);
 
   if (res === '400') {
     notification('Wrong username or password', 'warning', 2000);
 
     reset();
     return;
+  } else if (res === false) {
+    await router.push('/404');
   } else {
     console.log('Login successful');
-    await router.push('/vue-todo.v2/');
+    await router.push('/');
   }
 };
 
@@ -105,13 +109,13 @@ onMounted(() => {
           <KeySquare size="20" />
           <input v-model="password" type="password" placeholder="Password" />
 
-          <a class="forgot" href="/vue-todo.v2/register">Forgot password?</a>
+          <a class="forgot" href="/reg">Forgot password?</a>
         </div>
 
         <button type="submit" :class="{shake: error}">Sign in</button>
 
         <div class="register">
-          Don't have an account? <a href="/vue-todo.v2/register">Sign up</a>
+          Don't have an account? <RouterLink to="/reg">Sign up</RouterLink>
         </div>
       </form>
     </Transition>

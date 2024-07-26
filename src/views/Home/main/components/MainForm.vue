@@ -18,6 +18,8 @@ const flow = ref(['month', 'year', 'calendar', 'time']);
 const taskTitle = ref('');
 const subtext = ref('');
 const priority = ref('');
+const maxChars = 500;
+
 const shake = ref(false);
 
 const minDate = computed(() => {
@@ -118,7 +120,15 @@ onMounted(() => {
     </div>
 
     <div class="textarea">
-      <textarea v-model="subtext" placeholder="#add text for task"></textarea>
+      <textarea
+        v-model="subtext"
+        placeholder="#add text for task"
+        :maxlength="maxChars"
+      ></textarea>
+      <div :class="['char-count', {'red shake': subtext.length === maxChars}]">
+        {{ subtext.length }} / {{ maxChars }}
+        {{ subtext.length === maxChars ? 'limit reached' : '' }}
+      </div>
     </div>
 
     <button :class="{shake: shake}" type="submit">#Add Task</button>
@@ -127,4 +137,8 @@ onMounted(() => {
 
 <style scoped>
 @import 'main-form.css';
+
+.red {
+  color: rgb(245, 92, 92) !important;
+}
 </style>

@@ -12,14 +12,15 @@
 html {
     scrollbar-color: #000 #c5c5c5;
     scrollbar-width: thin;
+
+        
+    color: var(--color-text);
+    background: var(--color-background);
 }
 
 
 body {
     min-height: 100vh;
-    
-    color: var(--color-text);
-    background: var(--color-background);
 
     transition: color 0.5s,
     background-color 0.5s;

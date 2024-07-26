@@ -33,12 +33,12 @@ const saveUser = () => {
 const openModal = () => {
   userStore.token.length > 0
     ? (isModalOpen.value = true)
-    : router.push('/vue-todo.v2/auth');
+    : router.push('/auth');
 };
 
 const logout = () => {
   userStore.logout();
-  router.push('/vue-todo.v2/auth');
+  router.push('/auth');
 };
 
 const closeModal = () => {

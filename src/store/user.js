@@ -17,12 +17,7 @@ export const useUserStore = defineStore('user', {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/user/reg`,
-          {
-            id,
-            username: usernameReq,
-            name,
-            password,
-          },
+          {id, username: usernameReq, name, password},
         );
 
         const {access_token, userId, username} = response.data;
@@ -33,55 +28,41 @@ export const useUserStore = defineStore('user', {
           this.username = username;
           this.name = name;
           this.tasks = [];
-
           this.saveUser();
           return true;
         }
 
         return false;
       } catch (error) {
-        if (error.response && error.response.status === 400) {
-          return '404';
-        }
-        return false;
+        console.error('Registration error:', error);
+        return error.response?.status || 'Error';
       }
     },
     async login(username, password) {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/user/auth`,
-          {
-            username,
-            password,
-          },
+          {username, password},
         );
 
         const {access_token, user} = response.data;
 
         if (access_token && user) {
           const {id, name, tasks} = user;
-
           this.token = access_token;
           this.id = id;
           this.username = username;
           this.name = name;
           this.tasks = tasks || [];
-
           this.saveUser();
-        } else {
-          console.error('Unexpected response format:', response.data);
+          return true;
         }
+
+        return false;
       } catch (error) {
-        if (error.response) {
-          console.error('Error response data:', error.response.data);
-          return '400';
-        } else if (error.request) {
-          console.error('Error request data:', error.request);
-          alert('Login failed: No response from server');
-        } else {
-          console.error('Error message:', error.message);
-          alert(`Login failed: ${error.message}`);
-        }
+        // console.error('Login error:', error);
+        return error.response?.status || '400';
+        // return '400';
       }
     },
     async loadUser() {
@@ -96,14 +77,14 @@ export const useUserStore = defineStore('user', {
         this.token = token;
         this.username = username;
         this.name = name;
-        this.tasks = tasks;
-
+        this.tasks = tasks || [];
         await this.fetchTasks();
       }
     },
     async fetchTasks() {
+      if (!this.token) return;
+
       try {
-        console.log(this.id);
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/user/${this.id}/tasks`,
           {
@@ -116,10 +97,11 @@ export const useUserStore = defineStore('user', {
           this.tasks = response.data.tasks;
         }
       } catch (error) {
-        console.error('Failed to fetch tasks:', error);
+        // console.error('Failed to fetch tasks:', error);
+        false;
       }
     },
-    saveUser() {
+    async saveUser() {
       if (this.token) {
         const encryptedData = CryptoJS.AES.encrypt(
           JSON.stringify({
@@ -134,7 +116,7 @@ export const useUserStore = defineStore('user', {
         sessionStorage.setItem('user', encryptedData);
 
         try {
-          const response = axios.post(
+          const response = await axios.post(
             `${import.meta.env.VITE_API_URL}/user/update`,
             {
               id: this.id,
@@ -153,10 +135,10 @@ export const useUserStore = defineStore('user', {
             return true;
           }
         } catch (e) {
-          console.error(e);
-          return false;
+          console.error('Error saving user data:', e);
         }
       }
+      return false;
     },
     async addTask(task) {
       this.tasks.push(task);
@@ -181,14 +163,13 @@ export const useUserStore = defineStore('user', {
           return true;
         }
       } catch (e) {
-        console.error(e);
-        return false;
+        console.error('Error adding task:', e);
       }
+      return false;
     },
     async updateTask(id, updatedTask) {
       const index = this.tasks.findIndex(task => task.id === id);
       if (index !== -1) {
-        // Обновляем задачу в локальном состоянии
         this.tasks[index] = updatedTask;
 
         try {
@@ -210,18 +191,14 @@ export const useUserStore = defineStore('user', {
           if (response.status === 200 || response.status === 201) {
             this.saveUser();
             return true;
-          } else {
-            console.error(`Unexpected response status: ${response.status}`);
-            return false;
           }
         } catch (e) {
-          console.error(e);
-          return false;
+          console.error('Error updating task:', e);
         }
       } else {
         console.error('Task not found in local state');
-        return false;
       }
+      return false;
     },
     async removeTask(taskId) {
       try {
@@ -238,17 +215,11 @@ export const useUserStore = defineStore('user', {
           this.tasks = this.tasks.filter(task => task.id !== taskId);
           this.saveUser();
           return true;
-        } else {
-          console.error(`Failed to delete task: ${response.status}`);
-          return false;
         }
       } catch (error) {
         console.error('Error deleting task:', error);
-        return false;
       }
-    },
-    saveTasks() {
-      this.saveUser();
+      return false;
     },
     logout() {
       this.$reset();

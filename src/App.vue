@@ -1,11 +1,13 @@
-<script setup></script>
+<script setup>
+import {RouterView, RouterLink} from 'vue-router';
+</script>
 
 <template>
   <div>
     <!-- <HeaderTemplate /> -->
-    <a class="logo" href="/vue-todo.v2/">#TaskList</a>
+    <RouterLink class="logo" to="/">#TaskList</RouterLink>
     <main>
-      <router-view />
+      <RouterView />
     </main>
     <!--<FooterTemplate />-->
   </div>

@@ -1,5 +1,5 @@
 <script setup>
-import {nextTick, ref, watch} from 'vue';
+import {nextTick, ref, watch, computed} from 'vue';
 
 const props = defineProps({
   isEdit: Boolean,
@@ -9,6 +9,11 @@ const props = defineProps({
 const emit = defineEmits(['update:subtext']);
 const internalSubtext = ref(props.subtext);
 const textarea = ref(null);
+const maxChars = 500;
+
+const remainingChars = computed(() => {
+  return maxChars - internalSubtext.value.length;
+});
 
 const resizeTextarea = event => {
   const target = event.target;
@@ -30,14 +35,20 @@ watch(textarea, (newVal, oldVal) => {
   <div class="form-group">
     <label :class="{'show-label': isEdit}" for="subtext"> Edit </label>
 
-    <textarea
-      ref="textarea"
-      v-model="internalSubtext"
-      :class="['edit-input', {isEdit: isEdit}]"
-      :readonly="!isEdit"
-      name="subtext"
-      @input="resizeTextarea"
-    ></textarea>
+    <div :class="['edit-input']">
+      <textarea
+        ref="textarea"
+        v-model="internalSubtext"
+        :readonly="!isEdit"
+        name="subtext"
+        :class="{isEdit: isEdit}"
+        @input="resizeTextarea"
+        :maxlength="maxChars"
+      ></textarea>
+      <div class="char-count" v-if="isEdit">
+        {{ remainingChars }} characters remaining
+      </div>
+    </div>
   </div>
 </template>
 
@@ -65,30 +76,41 @@ watch(textarea, (newVal, oldVal) => {
   }
 
   .edit-input {
-    max-width: 100%;
-    width: 100%;
+    position: relative;
 
-    min-height: 40px;
-    max-height: 100px;
+    textarea {
+      max-width: 100%;
+      width: 100%;
 
-    overflow-y: auto;
+      min-height: 40px;
+      max-height: 100px;
 
-    font-family: 'Rubik', sans-serif;
-    font-size: 12px;
-    font-weight: 500;
+      overflow-y: auto;
 
-    color: var(--color-task);
-    background: transparent;
-    outline: none;
-    border: none;
-  }
+      font-family: 'Rubik', sans-serif;
+      font-size: 12px;
+      font-weight: 500;
 
-  .isEdit {
-    border: 1px solid var(--color-text);
-    border-radius: 8px;
+      color: var(--color-task);
+      background: transparent;
+      outline: none;
+      border: none;
+    }
 
-    padding: 10px;
-    font-size: 12px;
+    .isEdit {
+      border: 1px solid var(--color-text);
+      border-radius: 8px;
+
+      padding: 10px;
+      font-size: 12px;
+    }
+
+    .char-count {
+      position: absolute;
+      right: 0.5rem;
+      font-size: 12px;
+      color: #666;
+    }
   }
 
   .show-label {

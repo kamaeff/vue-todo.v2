@@ -1,5 +1,5 @@
 <script setup>
-import {useRouter} from 'vue-router';
+import {useRouter, RouterLink} from 'vue-router';
 import {onMounted, ref} from 'vue';
 import {v4 as uuidv4} from 'uuid';
 import {PenSquare, Repeat2, User, UserPen} from 'lucide-vue-next';
@@ -79,9 +79,9 @@ const regUser = async () => {
     return;
   } else if (!success) {
     notification('Failed to register', 'warning', 2000);
-    router.push('/vue-todo.v2/404');
+    router.push('/404');
   } else {
-    router.push('/vue-todo.v2/');
+    router.push('/');
   }
 };
 
@@ -132,7 +132,7 @@ onMounted(() => {
         <button type="submit" :class="{shake: error}">Sign up</button>
 
         <div class="login">
-          Already have an account? <a href="/vue-todo.v2/auth">Sign in</a>
+          Already have an account? <RouterLink to="/auth">Sign in</RouterLink>
         </div>
       </form>
     </Transition>
