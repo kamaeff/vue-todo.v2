@@ -69,6 +69,9 @@ const logIn = async () => {
 
     reset();
     return;
+  } else if (!res) {
+    notification('Failed to register', 'warning', 2000);
+    router.push('/vue-todo.v2/404');
   } else {
     console.log('Login successful');
     await router.push('/vue-todo.v2/');

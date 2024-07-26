@@ -74,9 +74,12 @@ const regUser = async () => {
 
   const success = await userStore.register(data);
 
-  if (success === '404' || !success) {
+  if (success === '404') {
     notification('User already exists', 'warning', 2000);
     return;
+  } else if (!success) {
+    notification('Failed to register', 'warning', 2000);
+    router.push('/vue-todo.v2/404');
   } else {
     router.push('/vue-todo.v2/');
   }
