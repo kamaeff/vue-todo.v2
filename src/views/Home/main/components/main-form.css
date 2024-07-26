@@ -199,15 +199,15 @@
 @media (max-width: 992px) {
     .form {
         width: 60%;
-        height: 60vh;
+       
+        height: 60vh !important;
+       
     }
 }
 
 @media (max-width: 768px) {
     .form {
         width: 60%;
-        height: 100% !important;
-
-    
+       
     }
 }

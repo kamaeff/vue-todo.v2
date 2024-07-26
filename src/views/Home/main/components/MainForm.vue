@@ -115,7 +115,12 @@ onMounted(() => {
       <div class="input">
         <Clipboard :size="18" />
 
-        <input v-model="taskTitle" placeholder="#add title" type="text" />
+        <input
+          v-model="taskTitle"
+          placeholder="#add title"
+          type="text"
+          :maxlength="50"
+        />
       </div>
     </div>
 
