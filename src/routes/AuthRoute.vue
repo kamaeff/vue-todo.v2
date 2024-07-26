@@ -28,18 +28,28 @@ const shake = message => {
   return () => clearTimeout(timeout);
 };
 
+const reset = () => {
+  username.value = '';
+  password.value = '';
+
+  error.value = false;
+};
+
 const logIn = async () => {
   console.log('logIn');
 
   if (username.value === '' || password.value === '') {
     error.value = true;
     shake('Some fields are empty');
+
+    reset();
     return;
   }
 
   if (!/^[a-zA-Z0-9]*$/.test(username.value)) {
     error.value = true;
     shake('Username must contain only English letters and digits');
+    reset();
     return;
   }
 
@@ -48,12 +58,21 @@ const logIn = async () => {
     shake(
       'Password must be at least 8 characters long and contain only English letters and digits',
     );
+    reset();
     return;
   }
 
-  await userStore.login(username.value, password.value);
+  const res = await userStore.login(username.value, password.value);
 
-  await router.push('/vue-todo.v2/');
+  if (res === '400') {
+    notification('Wrong username or password', 'warning', 2000);
+
+    reset();
+    return;
+  } else {
+    console.log('Login successful');
+    await router.push('/vue-todo.v2/');
+  }
 };
 
 onMounted(() => {

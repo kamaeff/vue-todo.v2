@@ -24,7 +24,7 @@ const localElement = ref(props.element);
 <template>
   <div v-if="localElement">
     <h3 class="title">
-      {{ getPriorityIcon(localElement.priority) + localElement.taskTitle }}
+      {{ getPriorityIcon(localElement.priority) + localElement.title }}
     </h3>
     <p v-if="localElement.date">
       #Done at: [

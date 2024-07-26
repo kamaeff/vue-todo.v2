@@ -40,10 +40,9 @@ const closeModal = () => {
 const addTask = () => {
   const formattedDate = formatDate(date.value);
   const data = {
-    id: String(Date.now()),
     date: String(formattedDate),
     priority: String(priority?.value || ''),
-    taskTitle: String(taskTitle?.value || ''),
+    title: String(taskTitle?.value || ''),
     subtext: String(subtext?.value || ''),
     status: 'new',
   };
@@ -68,7 +67,7 @@ const addTask = () => {
 
   emit('add-task', data);
 
-  notification('Task Added', 'success');
+  notification('Task Added', 'success', 1500);
 
   taskTitle.value = '';
   subtext.value = '';

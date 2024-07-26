@@ -1,6 +1,7 @@
 <script setup>
 import {useRouter} from 'vue-router';
 import {onMounted, ref} from 'vue';
+import {v4 as uuidv4} from 'uuid';
 import {PenSquare, Repeat2, User, UserPen} from 'lucide-vue-next';
 
 import {notification} from '@/lib/toastService';
@@ -65,8 +66,8 @@ const regUser = async () => {
   }
 
   const data = {
-    id: String(Date.now()),
-    username: username.value,
+    id: uuidv4(),
+    usernameReq: username.value,
     name: name.value,
     password: password.value,
   };
@@ -76,9 +77,9 @@ const regUser = async () => {
   if (success === '404' || !success) {
     notification('User already exists', 'warning', 2000);
     return;
+  } else {
+    router.push('/vue-todo.v2/');
   }
-
-  router.push('/vue-todo.v2/');
 };
 
 onMounted(() => {

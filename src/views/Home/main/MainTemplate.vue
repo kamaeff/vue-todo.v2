@@ -76,7 +76,7 @@ const updateTaskStatus = (columnName, evt) => {
       userStore.updateTask(movedItemId, movedItem);
 
       if (movedItem.status === 'done')
-        notification('Gratz! Task completed', 'success');
+        notification('Gratz! Task completed', 'success', 1500);
     }
   }
 };
@@ -88,10 +88,15 @@ const addTask = newTask => {
   addData.value = false;
 };
 
-const deleteTask = id => {
-  userStore.removeTask(id);
+const deleteTask = async id => {
+  const success = await userStore.removeTask(id);
 
-  _tasks.value = _tasks.value.filter(task => task.id !== id);
+  if (success) {
+    _tasks.value = _tasks.value.filter(task => task.id !== id);
+    notification('Task deleted successfully', 'success', 1500);
+  } else {
+    notification('Failed to delete task', 'warning', 1500);
+  }
 };
 
 const editTask = id => {
@@ -107,9 +112,9 @@ const saveTask = (id, newSubtext) => {
     _tasks.value[taskIndex].subtext = newSubtext;
     userStore.updateTask(id, _tasks.value[taskIndex]);
 
-    notification(`Task ${task.taskTitle} was saved`, 'success');
+    notification(`Task ${task.taskTitle} was saved`, 'success', 1500);
   } else {
-    notification(`Task wasn't saved`, 'warning');
+    notification(`Task wasn't saved`, 'warning', 1500);
   }
 };
 
