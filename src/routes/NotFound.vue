@@ -4,7 +4,7 @@ import {ServerCrash} from 'lucide-vue-next';
 
 <template>
   <div class="errPage">
-    <p><ServerCrash :size="30" />404 Not Found</p>
+    <p><ServerCrash :size="30" />404 Not Found :(</p>
     <p class="sub">
       Please return to the <a href="/vue-todo.v2/">main page</a>
     </p>

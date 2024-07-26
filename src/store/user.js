@@ -152,8 +152,6 @@ export const useUserStore = defineStore('user', {
           if (response.status === 200) {
             return true;
           }
-
-          return false;
         } catch (e) {
           console.error(e);
           return false;
